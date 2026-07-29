@@ -1,0 +1,39 @@
+{
+  "name": "session-alarm",
+  "version": "1.0.0",
+  "description": "Local animal-sound alerts when Codex needs input, finishes work, fails, or ends a session.",
+  "author": {
+    "name": "Danny",
+    "url": "https://github.com/djfksjd"
+  },
+  "homepage": "https://github.com/djfksjd/session-alarm",
+  "repository": "https://github.com/djfksjd/session-alarm",
+  "license": "MIT",
+  "keywords": [
+    "notifications",
+    "sounds",
+    "hooks",
+    "codex",
+    "claude-code"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Session Alarm",
+    "shortDescription": "Animal-sound alerts for agent status changes",
+    "longDescription": "Hear a locally generated animal sound when Codex needs input, completes a turn, encounters an error, or ends a session.",
+    "developerName": "Danny",
+    "category": "Productivity",
+    "capabilities": [
+      "Notifications"
+    ],
+    "websiteURL": "https://github.com/djfksjd/session-alarm",
+    "privacyPolicyURL": "https://github.com/djfksjd/session-alarm/blob/main/PRIVACY.md",
+    "defaultPrompt": [
+      "Configure Session Alarm",
+      "Preview Session Alarm animal sounds",
+      "Test my Session Alarm notifications"
+    ],
+    "brandColor": "#FFB703"
+  }
+}
+

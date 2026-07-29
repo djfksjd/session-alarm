@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+*.mp3
+*.m4a
+*.aac
+*.ogg
+*.flac
+.venv/
+venv/

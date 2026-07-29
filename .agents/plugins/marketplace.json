@@ -1,0 +1,21 @@
+{
+  "name": "session-alarm",
+  "interface": {
+    "displayName": "Session Alarm"
+  },
+  "plugins": [
+    {
+      "name": "session-alarm",
+      "source": {
+        "source": "local",
+        "path": "./plugins/session-alarm"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+

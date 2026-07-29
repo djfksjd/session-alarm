@@ -1,0 +1,22 @@
+{
+  "name": "session-alarm",
+  "version": "1.0.0",
+  "description": "Local animal-sound alerts when Claude Code needs input, finishes work, fails, or ends a session.",
+  "author": {
+    "name": "Danny",
+    "url": "https://github.com/djfksjd"
+  },
+  "homepage": "https://github.com/djfksjd/session-alarm",
+  "repository": "https://github.com/djfksjd/session-alarm",
+  "license": "MIT",
+  "keywords": [
+    "notifications",
+    "sounds",
+    "hooks",
+    "claude-code",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/claude.json"
+}
+

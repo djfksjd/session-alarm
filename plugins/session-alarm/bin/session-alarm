@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+SESSION_ALARM_BIN_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+exec python3 "${SESSION_ALARM_BIN_DIR}/../scripts/session_alarm.py" "$@"
+

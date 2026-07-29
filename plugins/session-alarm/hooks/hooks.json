@@ -1,0 +1,54 @@
+{
+  "description": "Session Alarm lifecycle notifications for Codex.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_alarm.py\" hook --source codex",
+            "commandWindows": "py -3 \"${CLAUDE_PLUGIN_ROOT}\\scripts\\session_alarm.py\" hook --source codex",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_alarm.py\" hook --source codex",
+            "commandWindows": "py -3 \"${CLAUDE_PLUGIN_ROOT}\\scripts\\session_alarm.py\" hook --source codex",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_alarm.py\" hook --source codex",
+            "commandWindows": "py -3 \"${CLAUDE_PLUGIN_ROOT}\\scripts\\session_alarm.py\" hook --source codex",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/session_alarm.py\" hook --source codex",
+            "commandWindows": "py -3 \"${CLAUDE_PLUGIN_ROOT}\\scripts\\session_alarm.py\" hook --source codex",
+            "timeout": 3
+          }
+        ]
+      }
+    ]
+  }
+}
+

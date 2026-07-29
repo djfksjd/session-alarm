@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Session Alarm logo</title>
+  <desc id="desc">A warm yellow alarm bell with animal ears and teal sound waves</desc>
+  <defs>
+    <linearGradient id="bg" x1="64" y1="48" x2="448" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14213D"/>
+      <stop offset="1" stop-color="#0B1024"/>
+    </linearGradient>
+    <linearGradient id="bell" x1="164" y1="150" x2="350" y2="382" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD166"/>
+      <stop offset="1" stop-color="#FB8500"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#bg)"/>
+  <path d="M151 177 123 88l92 57z" fill="#FFB703" stroke="#FFD166" stroke-width="12" stroke-linejoin="round"/>
+  <path d="m361 177 28-89-92 57z" fill="#FFB703" stroke="#FFD166" stroke-width="12" stroke-linejoin="round"/>
+  <g fill="none" stroke="#2EC4B6" stroke-linecap="round">
+    <path d="M102 219c-34 30-34 74 0 104" stroke-width="18"/>
+    <path d="M68 180c-60 52-60 130 0 182" stroke-width="14" opacity=".72"/>
+    <path d="M410 219c34 30 34 74 0 104" stroke-width="18"/>
+    <path d="M444 180c60 52 60 130 0 182" stroke-width="14" opacity=".72"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M256 123c-67 0-111 53-111 126v51c0 27-10 51-30 71-8 8-2 22 10 22h262c12 0 18-14 10-22-20-20-30-44-30-71v-51c0-73-44-126-111-126z" fill="url(#bell)"/>
+    <path d="M199 405c9 30 28 46 57 46s48-16 57-46z" fill="#FFD166"/>
+    <path d="M178 377h156" stroke="#FFF2C7" stroke-width="14" stroke-linecap="round" opacity=".76"/>
+    <circle cx="218" cy="247" r="14" fill="#14213D"/>
+    <circle cx="294" cy="247" r="14" fill="#14213D"/>
+    <path d="M233 292c15 14 31 14 46 0" fill="none" stroke="#14213D" stroke-width="12" stroke-linecap="round"/>
+  </g>
+</svg>
+

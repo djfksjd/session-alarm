@@ -1,0 +1,34 @@
+{
+  "name": "session-alarm",
+  "owner": {
+    "name": "Danny",
+    "url": "https://github.com/djfksjd"
+  },
+  "metadata": {
+    "description": "Local lifecycle alarms for Codex and Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "session-alarm",
+      "source": "./plugins/session-alarm",
+      "description": "Animal-sound alerts when a coding agent needs input, finishes, fails, or ends a session.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Danny"
+      },
+      "homepage": "https://github.com/djfksjd/session-alarm",
+      "repository": "https://github.com/djfksjd/session-alarm",
+      "license": "MIT",
+      "category": "productivity",
+      "tags": [
+        "notifications",
+        "sounds",
+        "hooks",
+        "codex",
+        "claude-code"
+      ],
+      "strict": true
+    }
+  ]
+}
+
