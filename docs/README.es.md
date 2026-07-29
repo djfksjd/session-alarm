@@ -30,15 +30,15 @@ Session Alarm es un plugin de notificaciones mediante hooks creado específicame
 escritorio cuando el agente necesita una respuesta, termina un turno, se detiene por un error o
 cierra una sesión.
 
-Los 40 sonidos se generan con recetas originales de modelado acústico a 44,1 kHz. No incluyen
-grabaciones, efectos de stock, clips generados por IA, voces famosas ni muestras de terceros.
-También puedes añadir un WAV creado por ti o con licencia; el archivo permanece en tu equipo.
+Los 40 sonidos integrados proceden de Pixabay y se usan bajo la Pixabay Content License, que
+permite usos comerciales y no comerciales. Se registran la página de origen, la fecha de
+verificación y el SHA-256. También puedes añadir un WAV propio o con licencia.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 Determinista</strong><br>Los hooks del ciclo de vida funcionan sin depender de la memoria del modelo.</td>
     <td width="25%" align="center"><strong>🐊 40 animales</strong><br>Desde gatos y patos hasta cocodrilos, elefantes, hienas y ballenas.</td>
-    <td width="25%" align="center"><strong>🛡️ Audio original</strong><br>Sin memes, famosos, emisiones, efectos de stock ni muestras externas.</td>
+    <td width="25%" align="center"><strong>🛡️ Licencia verificada</strong><br>Condiciones comerciales, origen, fecha y sumas de verificación documentadas.</td>
     <td width="25%" align="center"><strong>🏠 Solo local</strong><br>Sin cuenta, servidor, análisis, telemetría ni solicitudes de red.</td>
   </tr>
 </table>
@@ -131,8 +131,8 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 | Criaturas pequeñas | Rana, grillo, abeja, mosquito |
 | Océano | Delfín, foca, ballena |
 
-Cada nombre describe un diseño sonoro original inspirado en ese animal, no una grabación de campo.
-Consulta la [procedencia y licencia](../SOUND_LICENSE.md).
+Los archivos están normalizados para notificaciones breves. Consulta la
+[procedencia y licencia](../SOUND_LICENSE.md).
 
 ## Privacidad y licencia
 
@@ -143,6 +143,6 @@ hay solicitudes de red. Consulta la [declaración de privacidad](../PRIVACY.md) 
 
 Los derechos del audio importado no cambian; usa solo audio propio o con una licencia válida.
 
-El código usa la [licencia MIT](../LICENSE) y los WAV generados solo a partir de las recetas
-originales se ofrecen bajo [CC0 1.0](../SOUND_LICENSE.md).
+El código y la documentación usan la [licencia MIT](../LICENSE). Los WAV integrados no están
+cubiertos por MIT y conservan la [Pixabay Content License](../SOUND_LICENSE.md).
 Este es un proyecto independiente sin afiliación, respaldo ni patrocinio de OpenAI o Anthropic.

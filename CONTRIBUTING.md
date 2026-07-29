@@ -11,10 +11,14 @@ Contributions are welcome.
 
 ## Sound contributions
 
-New sounds must be original procedural recipes. Do not submit recordings, extracted samples,
-model-generated audio of unclear provenance, video or broadcast clips, celebrity voices, stock
-effects, or imitations of identifiable copyrighted sounds. Add localized metadata and catalog tests
-with the recipe.
+New bundled sounds must come from an exact Pixabay asset page that explicitly displays the
+Pixabay Content License. Add the contributor, asset URL, verification date, SHA-256 checksum, and
+commercial-use status to `plugins/session-alarm/assets/sounds/sources.json`.
+
+Do not submit media copied from search engines, social networks, broadcasts, videos, celebrity
+voices, or any source whose commercial-use and application-integration rights are unclear.
+Pixabay files must not be presented as original Session Alarm creations or redistributed as a
+standalone sound library. Add localized catalog metadata and tests with each asset.
 
 ## Pull requests
 

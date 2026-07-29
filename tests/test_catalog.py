@@ -1,4 +1,3 @@
-import os
 import hashlib
 import math
 import sys
@@ -12,10 +11,10 @@ PLUGIN_ROOT = Path(__file__).resolve().parents[1] / "plugins" / "session-alarm"
 sys.path.insert(0, str(PLUGIN_ROOT))
 
 from session_alarm.catalog import (
-    RECIPES,
     SAMPLE_RATE,
     SOUNDS,
     SOUND_BY_ID,
+    asset_path,
     render_wav,
     synthesize,
 )
@@ -26,8 +25,8 @@ class CatalogTests(unittest.TestCase):
         ids = [sound.sound_id for sound in SOUNDS]
         self.assertEqual(40, len(ids))
         self.assertEqual(len(ids), len(set(ids)))
-        self.assertEqual(set(ids), set(RECIPES))
         self.assertEqual(set(ids), set(SOUND_BY_ID))
+        self.assertTrue(all(asset_path(sound_id).is_file() for sound_id in ids))
 
     def test_requested_fun_animals_are_present(self):
         expected = {
@@ -43,7 +42,7 @@ class CatalogTests(unittest.TestCase):
         }
         self.assertTrue(expected.issubset(SOUND_BY_ID))
 
-    def test_every_recipe_is_non_silent_and_bounded_in_length(self):
+    def test_every_bundled_sound_is_non_silent_and_bounded_in_length(self):
         for sound in SOUNDS:
             with self.subTest(sound=sound.sound_id):
                 samples = synthesize(sound.sound_id)

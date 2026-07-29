@@ -2,6 +2,13 @@
 
 All notable changes to Session Alarm are documented here.
 
+## 1.2.0 — 2026-07-30
+
+- Replaced the procedural built-in pack with 40 higher-fidelity Pixabay animal sounds.
+- Separated the software's MIT License from the audio's Pixabay Content License.
+- Added commercial-use status, source pages, verification dates, and SHA-256 asset checks.
+- Matched the elephant effect to “Elephant Trumpeting” by DRAGON-STUDIO.
+
 ## 1.1.0 — 2026-07-30
 
 - Import locally owned or licensed PCM WAV files as custom notification sounds.

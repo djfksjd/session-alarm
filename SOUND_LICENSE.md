@@ -1,28 +1,39 @@
 # Sound provenance and license
 
-Session Alarm contains **no sampled, downloaded, scraped, celebrity, broadcast, meme, or
-third-party audio**. The 40-sound catalog is generated deterministically from the original DSP
-recipes in [`catalog.py`](plugins/session-alarm/session_alarm/catalog.py).
+## Bundled animal sounds
 
-The synthesis engine models pitch contours, harmonic excitation, vocal formants, filtered breath,
-amplitude envelopes, tremolo, and simple acoustic echoes at 44.1 kHz. Stock-media files are not
-included, transformed, embedded, or required at runtime.
+The 40 built-in WAV files are Pixabay sound effects used under the
+[Pixabay Content License](https://pixabay.com/service/license-summary/). Pixabay's official
+license and FAQ permit commercial and non-commercial use, subject to the prohibited uses in its
+[Terms of Service](https://pixabay.com/service/terms/).
 
-The synthesis code is covered by the repository's MIT License. To the extent that copyright or
-related rights may exist in WAV files produced solely by these recipes, the project author
-dedicates those generated audio outputs to the public domain under
-[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
+The assets are incorporated as functional notification sounds in the Session Alarm application.
+They are not offered as a standalone sound-effect library. Do not extract, sell, sublicense, or
+redistribute the audio files separately from Session Alarm.
 
-Animal names describe the original sound design's intended character. They do not claim that a
-generated effect is a recording of that animal.
+Pixabay does not require attribution, but Session Alarm identifies the provider and retains a
+machine-readable provenance manifest at
+[`plugins/session-alarm/assets/sounds/sources.json`](plugins/session-alarm/assets/sounds/sources.json).
+That manifest records the license verification date, source pages, integration purpose, and a
+SHA-256 checksum for every file.
 
-Sound contributions must be original recipes. Pull requests containing recordings, extracted
-samples, model-generated audio of unclear provenance, or imitations of identifiable copyrighted
-clips will not be accepted.
+The elephant file was independently matched to
+[“Elephant Trumpeting” by DRAGON-STUDIO](https://pixabay.com/sound-effects/nature-elephant-trumpeting-494313/).
+Its normalized waveform correlates 0.998711 with an official source download after encoder-delay
+alignment.
+
+The original prototype did not retain exact asset-level URLs for the other 39 files. Their
+corresponding Pixabay collection pages and hashes are disclosed in the manifest instead. This is
+less complete provenance than the project requires for future contributions; no future sound may
+be added without its exact asset URL and contributor.
+
+The repository's MIT License applies to the software and documentation, not to the bundled
+Pixabay audio. Nothing in this repository transfers ownership of Pixabay content or grants rights
+beyond the Pixabay Content License.
 
 ## User-imported sounds
 
 The `custom add` command can copy a user's local WAV into their private Session Alarm data
-directory. Those files are never included in this repository, uploaded, redistributed, or covered
-by the MIT/CC0 terms above. Their original rights and license remain unchanged. Users are
-responsible for importing only audio they created or are authorized to use.
+directory. Those files are never uploaded or added to this repository. Their original rights and
+license remain unchanged. Users are responsible for importing only audio they created or are
+authorized to use.
