@@ -29,15 +29,15 @@ Session Alarm は、**Codex と Claude Code 専用のフックベース通知プ
 エージェントが入力を必要とした時、現在のターンを完了した時、エラーで停止した時、
 またはセッションを終了した時に、音と任意のデスクトップ通知で知らせます。
 
-40 種類すべてを、オリジナルの 44.1 kHz 音響モデリングレシピから生成します。
-録音、ストック効果音、AI 生成クリップ、有名人の声、外部サンプルは含まれません。
-自作または利用許諾を得た WAV も追加できます。ファイルは端末内だけに保存されます。
+内蔵 40 種類は、商用・非商用利用が可能な Pixabay Content License の動物効果音です。
+各ファイルの出典ページ、確認日、SHA-256 を記録しています。自作または利用許諾を
+得た WAV も追加でき、ユーザーファイルは端末内だけに保存されます。
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 確実</strong><br>モデルの記憶ではなくライフサイクルフックで動作します。</td>
     <td width="25%" align="center"><strong>🐊 40 種類</strong><br>猫やアヒルからワニ、ゾウ、ハイエナ、クジラまで。</td>
-    <td width="25%" align="center"><strong>🛡️ オリジナル音源</strong><br>ミーム、有名人、放送、ストック効果音、外部サンプルを使用しません。</td>
+    <td width="25%" align="center"><strong>🛡️ ライセンス確認</strong><br>商用利用条件、出典、確認日、チェックサムを公開します。</td>
     <td width="25%" align="center"><strong>🏠 ローカルのみ</strong><br>アカウント、サーバー、解析、テレメトリー、通信はありません。</td>
   </tr>
 </table>
@@ -130,7 +130,7 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 | 小さな生物 | カエル、コオロギ、ハチ、蚊 |
 | 海 | イルカ、アザラシ、クジラ |
 
-各名称は動物から着想したオリジナルのサウンドデザインを示し、実地録音ではありません。
+音声は短い通知向けに正規化されています。
 [音源の由来とライセンス](../SOUND_LICENSE.md)をご覧ください。
 
 ## プライバシーとライセンス
@@ -142,7 +142,7 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 
 追加した音声の権利は変更されません。自作または利用許諾を得た音声のみを使用してください。
 
-コードは [MIT](../LICENSE)、オリジナルレシピのみから生成した WAV は
-[CC0 1.0](../SOUND_LICENSE.md) です。
+コードと文書は [MIT](../LICENSE) です。内蔵 WAV は MIT の対象外で、
+[Pixabay Content License](../SOUND_LICENSE.md) が適用されます。
 本プロジェクトは OpenAI または Anthropic と提携・後援関係にない独立した
 オープンソースプロジェクトです。

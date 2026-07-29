@@ -12,6 +12,7 @@
 <p align="center">
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="../LICENSE"><img alt="MIT 라이선스" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
+  <a href="../SOUND_LICENSE.md"><img alt="Pixabay Content License 음원" src="https://img.shields.io/badge/음원-Pixabay_Content_License-00AB6B?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
   <img alt="내장 40종과 사용자 WAV" src="https://img.shields.io/badge/사운드-내장_40종_%2B_내_소리-FFB703?style=flat-square">
 </p>
@@ -29,15 +30,15 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 사용자 입력을 기다리거나, 현재 작업을 마치거나, 오류로 중단되거나, 세션을 종료할 때
 소리와 선택적 데스크톱 알림을 보냅니다.
 
-내장 40종 모두 44.1kHz 자체 음향 모델링 레시피로 생성합니다. 녹음·스톡 효과음·AI
-생성 클립·유명인 음성·외부 샘플은 하나도 포함하지 않습니다. 직접 만들었거나 사용
-허가를 받은 WAV도 추가할 수 있으며, 파일은 사용자 컴퓨터 밖으로 전송되지 않습니다.
+내장 40종은 상업적·비상업적 사용이 가능한 Pixabay Content License 동물 효과음입니다.
+모든 파일의 출처 페이지·확인일·SHA-256을 매니페스트에 기록합니다. 직접 만들었거나
+사용 허가를 받은 WAV도 추가할 수 있으며 사용자 파일은 컴퓨터 밖으로 전송되지 않습니다.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 확실한 작동</strong><br>모델의 기억이 아니라 라이프사이클 훅으로 실행됩니다.</td>
     <td width="25%" align="center"><strong>🐊 40종 + 내 소리</strong><br>동물 소리를 고르거나 내 WAV를 추가합니다.</td>
-    <td width="25%" align="center"><strong>🛡️ 자체 제작 음원</strong><br>밈·유명인·방송·스톡 효과음·외부 샘플을 사용하지 않습니다.</td>
+    <td width="25%" align="center"><strong>🛡️ 라이선스 확인</strong><br>상업적 이용 조건·출처·확인일·파일 해시를 공개합니다.</td>
     <td width="25%" align="center"><strong>🏠 완전한 로컬</strong><br>계정·서버·분석·텔레메트리·네트워크 요청이 없습니다.</td>
   </tr>
 </table>
@@ -56,6 +57,10 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 > [!NOTE]
 > 여기서 “작업 완료”는 에이전트가 현재 턴을 끝냈다는 뜻입니다. 백그라운드 작업이나
 > 세션 예약이 진행 중이라고 확인되면 완료 알림을 울리지 않습니다.
+
+> [!IMPORTANT]
+> 내장 음원은 Session Alarm 자체 제작물이나 MIT·CC0 음원이 아닙니다. Pixabay 음원을
+> 앱 기능에 통합한 것이므로 파일만 따로 추출하거나 효과음 라이브러리로 재배포하면 안 됩니다.
 
 ## 설치
 
@@ -156,8 +161,8 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 | 작은 생물 | 개구리, 귀뚜라미, 벌, 모기 |
 | 바다동물 | 돌고래, 물개, 고래 |
 
-각 이름은 해당 동물에서 영감을 받은 자체 사운드 디자인을 뜻하며 실제 현장 녹음은
-아닙니다. [음원 출처 및 라이선스](../SOUND_LICENSE.md)를 확인하세요.
+알림에 맞게 짧고 균일하게 정규화했습니다. [음원 출처 및 라이선스](../SOUND_LICENSE.md)와
+[파일별 매니페스트](../plugins/session-alarm/assets/sounds/sources.json)를 확인하세요.
 
 ## 작동 구조
 
@@ -169,7 +174,7 @@ flowchart LR
     D -- 아니요 --> E[설정 스킬]
     D -- 예 --> F[이벤트 분류]
     F --> G[방해금지·중복 확인]
-    G --> H[WAV 합성·캐시]
+    G --> H[WAV 로드·음량 캐시]
     H --> I[운영체제 오디오 플레이어]
     G --> J[선택적 데스크톱 알림]
 ```
@@ -185,7 +190,7 @@ Codex나 Claude Code의 작업을 막지 않습니다.
 사용자에게 있으며, 직접 만들었거나 사용 허가를 받은 파일만 사용해야 합니다. 자세한
 내용은 [개인정보 안내](../PRIVACY.md)와 [보안 정책](../SECURITY.md)을 확인하세요.
 
-코드는 [MIT 라이선스](../LICENSE)이며 자체 레시피로 생성한 WAV는
-[CC0 1.0](../SOUND_LICENSE.md)으로 제공합니다.
+코드와 문서는 [MIT 라이선스](../LICENSE)입니다. 내장 WAV에는 MIT가 적용되지 않으며
+[Pixabay Content License](../SOUND_LICENSE.md)가 적용됩니다.
 이 프로젝트는 OpenAI 또는 Anthropic과 제휴하거나 후원받지 않은 독립 오픈소스
 프로젝트입니다.

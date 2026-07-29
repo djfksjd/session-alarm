@@ -12,6 +12,7 @@
 <p align="center">
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
+  <a href="SOUND_LICENSE.md"><img alt="Pixabay Content License audio" src="https://img.shields.io/badge/audio-Pixabay_Content_License-00AB6B?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
   <img alt="40 built-in sounds plus custom WAV" src="https://img.shields.io/badge/sounds-40_built--in_%2B_yours-FFB703?style=flat-square">
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-14213D?style=flat-square">
@@ -30,15 +31,15 @@ Session Alarm is a hook-based notification plugin made specifically for **Codex*
 **Claude Code**. It plays a sound and can show a desktop notification when an agent needs input,
 finishes a turn, stops with an error, or ends a session.
 
-All 40 built-in choices are generated from original 44.1 kHz acoustic-modeling recipes. No
-recordings, stock effects, model-generated clips, celebrity voices, or third-party samples are
-included. You can also import a WAV you created or are licensed to use; it stays on your machine.
+The 40 built-in choices are higher-fidelity animal effects from Pixabay, licensed for commercial
+and non-commercial use under the Pixabay Content License. Every bundled file has a SHA-256 entry
+in the provenance manifest. You can also import a WAV you created or are licensed to use.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 Deterministic</strong><br>Lifecycle hooks fire without relying on the model to remember.</td>
     <td width="25%" align="center"><strong>🐊 40 + yours</strong><br>Choose an animal or import your own local WAV.</td>
-    <td width="25%" align="center"><strong>🛡️ Original audio</strong><br>No memes, celebrity voices, broadcasts, stock effects, or third-party samples.</td>
+    <td width="25%" align="center"><strong>🛡️ Licensed audio</strong><br>Commercial-use status, source pages, verification date, and checksums are documented.</td>
     <td width="25%" align="center"><strong>🏠 Local only</strong><br>No account, server, analytics, telemetry, or network request.</td>
   </tr>
 </table>
@@ -57,6 +58,10 @@ Choose a different sound for every event during first-run setup.
 > [!NOTE]
 > “Work complete” means the agent finished its current turn. Session Alarm suppresses completion
 > sounds while known background tasks or session schedules remain active.
+
+> [!IMPORTANT]
+> Bundled audio is Pixabay content, not a Session Alarm creation and not MIT/CC0. It is integrated
+> into this application and must not be extracted or redistributed as a standalone sound library.
 
 ## Install
 
@@ -159,8 +164,9 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 | Small creatures | Frog, cricket, bee, mosquito |
 | Ocean | Dolphin, seal, whale |
 
-Each label describes an original sound design inspired by that animal, not a field recording.
-See [sound provenance and licensing](SOUND_LICENSE.md).
+The files are normalized for short notifications. See
+[sound provenance and licensing](SOUND_LICENSE.md) and the
+[machine-readable asset manifest](plugins/session-alarm/assets/sounds/sources.json).
 
 ## How it works
 
@@ -172,7 +178,7 @@ flowchart LR
     D -- No --> E[First-run setup skill]
     D -- Yes --> F[Classify event]
     F --> G[Quiet-hours + duplicate guard]
-    G --> H[Synthesize or normalize/cache WAV]
+    G --> H[Load or normalize/cache WAV]
     H --> I[Native audio player]
     G --> J[Optional desktop notification]
 ```
@@ -192,8 +198,8 @@ Session Alarm does not store transcripts. It checks the final assistant message 
 decide whether a stopped turn is asking a question, then discards it. Read the full
 [privacy statement](PRIVACY.md) and [security policy](SECURITY.md).
 
-Imported audio is not bundled, uploaded, or covered by the project's CC0 dedication. You retain
-its rights and are responsible for using audio you created or are licensed to use.
+User-imported audio is not uploaded or covered by the bundled asset license. You retain its rights
+and are responsible for using audio you created or are licensed to use.
 
 ## Development
 
@@ -210,13 +216,14 @@ claude plugin validate --strict .
 The CI workflow runs the test suite on Linux, macOS, and Windows. `main` is protected by an active
 GitHub ruleset that requires pull requests and the `test` status check.
 
-Contributions are welcome; read [CONTRIBUTING.md](CONTRIBUTING.md). New sound contributions must
-use original synthesis recipes and cannot contain sampled audio.
+Contributions are welcome; read [CONTRIBUTING.md](CONTRIBUTING.md). New sound contributions
+require an exact Pixabay asset URL, contributor, commercial-use verification, and checksum.
 
 ## License
 
-Code is released under the [MIT License](LICENSE). WAV files generated solely from the original
-recipes are dedicated under CC0 1.0 as described in [SOUND_LICENSE.md](SOUND_LICENSE.md).
+Code and documentation are released under the [MIT License](LICENSE). Bundled WAV files remain
+under the [Pixabay Content License](SOUND_LICENSE.md); MIT does not apply to those audio assets.
+See [third-party notices](THIRD_PARTY_NOTICES.md).
 
 Session Alarm is independent and is not affiliated with OpenAI or Anthropic. See
 [TRADEMARKS.md](TRADEMARKS.md).

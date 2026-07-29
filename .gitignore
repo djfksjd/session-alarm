@@ -8,6 +8,7 @@ dist/
 build/
 *.egg-info/
 *.wav
+!plugins/session-alarm/assets/sounds/*.wav
 *.mp3
 *.m4a
 *.aac

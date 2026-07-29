@@ -1,3 +1,4 @@
+import hashlib
 import json
 import sys
 import unittest
@@ -48,14 +49,41 @@ class PackagingTests(unittest.TestCase):
                     self.assertEqual("node", hook["command"])
                     self.assertIn("${CLAUDE_PLUGIN_ROOT}/scripts/hook.mjs", hook["args"])
 
-    def test_repository_contains_no_sampled_audio(self):
+    def test_bundled_audio_has_commercial_license_manifest(self):
+        sound_dir = PLUGIN / "assets" / "sounds"
+        sources = read_json(sound_dir / "sources.json")
+        self.assertEqual("Pixabay Content License", sources["license_name"])
+        self.assertEqual(
+            "https://pixabay.com/service/license-summary/",
+            sources["license_url"],
+        )
+        self.assertTrue(sources["commercial_use_permitted"])
+        self.assertTrue(sources["standalone_redistribution_prohibited"])
+
+        entries = sources["sounds"]
+        self.assertEqual(40, len(entries))
+        self.assertEqual(40, len({entry["id"] for entry in entries}))
+        self.assertEqual(40, len({entry["file"] for entry in entries}))
+        for entry in entries:
+            with self.subTest(sound=entry["id"]):
+                path = sound_dir / entry["file"]
+                self.assertTrue(path.is_file())
+                self.assertEqual(
+                    entry["sha256"],
+                    hashlib.sha256(path.read_bytes()).hexdigest(),
+                )
+                self.assertTrue(entry["source_page"].startswith("https://pixabay.com/"))
+
+    def test_audio_files_exist_only_in_the_licensed_asset_directory(self):
         audio_extensions = {".wav", ".mp3", ".m4a", ".aac", ".ogg", ".flac"}
         found = [
             path
             for path in ROOT.rglob("*")
             if path.is_file() and path.suffix.lower() in audio_extensions
         ]
-        self.assertEqual([], found)
+        self.assertEqual(40, len(found))
+        sound_dir = PLUGIN / "assets" / "sounds"
+        self.assertTrue(all(path.parent == sound_dir for path in found))
 
     def test_localized_readmes_exist(self):
         for name in ("README.ko.md", "README.ja.md", "README.zh-CN.md", "README.es.md"):

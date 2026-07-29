@@ -28,15 +28,15 @@
 Session Alarm 是专为 **Codex 和 Claude Code** 设计的生命周期钩子通知插件。当智能体
 需要输入、完成当前轮次、因错误停止或结束会话时，它会播放声音，并可显示桌面通知。
 
-全部 40 种声音均由原创 44.1 kHz 声学建模配方生成，不包含录音、素材音效、
-AI 生成片段、名人声音或第三方样本。
-也可以添加自己制作或已获授权的 WAV；文件始终保存在本机。
+内置 40 种声音来自 Pixabay，并依据允许商业和非商业使用的 Pixabay Content License
+使用。每个文件都记录来源页面、核验日期和 SHA-256。也可以添加自己制作或已获授权
+的 WAV；用户文件始终保存在本机。
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 确定性触发</strong><br>由生命周期钩子运行，不依赖模型记忆。</td>
     <td width="25%" align="center"><strong>🐊 40 种动物</strong><br>从猫和鸭子到鳄鱼、大象、鬣狗和鲸鱼。</td>
-    <td width="25%" align="center"><strong>🛡️ 原创音频</strong><br>不使用迷因、名人、广播、素材音效或第三方样本。</td>
+    <td width="25%" align="center"><strong>🛡️ 许可已核验</strong><br>公开商业使用条件、来源、核验日期和校验和。</td>
     <td width="25%" align="center"><strong>🏠 完全本地</strong><br>无账户、服务器、分析、遥测或网络请求。</td>
   </tr>
 </table>
@@ -127,8 +127,7 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 | 小型生物 | 青蛙、蟋蟀、蜜蜂、蚊子 |
 | 海洋 | 海豚、海豹、鲸鱼 |
 
-每个名称表示受相应动物启发的原创声音设计，并非实地录音。请参阅
-[声音来源与许可](../SOUND_LICENSE.md)。
+音频已针对短通知进行标准化。请参阅[声音来源与许可](../SOUND_LICENSE.md)。
 
 ## 隐私与许可
 
@@ -138,6 +137,6 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 
 导入音频的权利不会改变；请仅使用自己制作或已获授权的音频。
 
-代码采用 [MIT 许可证](../LICENSE)，仅由原创配方生成的 WAV 依据
-[CC0 1.0](../SOUND_LICENSE.md) 提供。
+代码和文档采用 [MIT 许可证](../LICENSE)。内置 WAV 不属于 MIT 范围，适用
+[Pixabay Content License](../SOUND_LICENSE.md)。
 本项目是独立开源项目，与 OpenAI 或 Anthropic 没有关联、认可或赞助关系。
