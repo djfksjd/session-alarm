@@ -32,6 +32,7 @@ cierra una sesión.
 
 Los 40 sonidos se generan con recetas originales de modelado acústico a 44,1 kHz. No incluyen
 grabaciones, efectos de stock, clips generados por IA, voces famosas ni muestras de terceros.
+También puedes añadir un WAV creado por ti o con licencia; el archivo permanece en tu equipo.
 
 <table>
   <tr>
@@ -97,7 +98,7 @@ Requiere Python 3.9 o posterior. Usa `afplay` en macOS, `paplay`/`aplay`/`ffplay
 
 ## Primera configuración
 
-El asistente permite explorar y preescuchar todo el catálogo, asignar un sonido diferente a cada
+El asistente permite explorar y preescuchar el catálogo, añadir un WAV propio y asignar un sonido diferente a cada
 uno de los cuatro eventos, elegir volumen y notificaciones de escritorio, y definir horas de
 silencio que pueden cruzar la medianoche. Codex y Claude Code comparten la misma configuración.
 
@@ -110,6 +111,10 @@ python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volum
 
 # Escuchar los 40 sonidos en orden (detener: Ctrl+C)
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
+
+# Añadir y preescuchar tu WAV (máximo 30 segundos / 32 MB)
+python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-sound.wav" \
+  --name "My Sound" --id my-sound --preview
 
 # Probar los cuatro eventos
 python3 plugins/session-alarm/scripts/session_alarm.py test all
@@ -131,10 +136,12 @@ Consulta la [procedencia y licencia](../SOUND_LICENSE.md).
 
 ## Privacidad y licencia
 
-La configuración y la caché WAV generada permanecen en `~/.config/session-alarm/` en macOS/Linux o
+La configuración, los WAV importados y la caché generada permanecen en `~/.config/session-alarm/` en macOS/Linux o
 `%APPDATA%\session-alarm\` en Windows. No se guardan ni transmiten conversaciones o archivos y no
 hay solicitudes de red. Consulta la [declaración de privacidad](../PRIVACY.md) y la
 [política de seguridad](../SECURITY.md).
+
+Los derechos del audio importado no cambian; usa solo audio propio o con una licencia válida.
 
 El código usa la [licencia MIT](../LICENSE) y los WAV generados solo a partir de las recetas
 originales se ofrecen bajo [CC0 1.0](../SOUND_LICENSE.md).

@@ -1,9 +1,12 @@
 import json
 import os
+import math
+import struct
 import subprocess
 import sys
 import tempfile
 import unittest
+import wave
 from pathlib import Path
 
 
@@ -85,6 +88,56 @@ class CliTests(unittest.TestCase):
         self.assertTrue(payload["configured"])
         self.assertEqual("crocodile", payload["config"]["sounds"]["attention"])
         self.assertEqual(0.55, payload["config"]["volume"])
+
+    def test_custom_sound_add_configure_list_and_remove(self):
+        source = Path(self.temporary.name) / "my-chime.wav"
+        with wave.open(str(source), "wb") as output:
+            output.setnchannels(1)
+            output.setsampwidth(2)
+            output.setframerate(44_100)
+            frames = [
+                struct.pack(
+                    "<h",
+                    int(9_000 * math.sin(2.0 * math.pi * 523.25 * index / 44_100)),
+                )
+                for index in range(4_410)
+            ]
+            output.writeframes(b"".join(frames))
+
+        added = self.run_cli(
+            "custom",
+            "add",
+            str(source),
+            "--id",
+            "my-chime",
+            "--name",
+            "My Chime",
+            "--json",
+        )
+        self.assertEqual(0, added.returncode, added.stderr)
+        self.assertEqual("custom:my-chime", json.loads(added.stdout)["id"])
+
+        listed = self.run_cli("custom", "list", "--json")
+        self.assertEqual(0, listed.returncode, listed.stderr)
+        self.assertEqual("custom:my-chime", json.loads(listed.stdout)[0]["id"])
+
+        configured = self.run_cli(
+            "configure",
+            "--complete",
+            "custom:my-chime",
+            "--notifications",
+            "off",
+        )
+        self.assertEqual(0, configured.returncode, configured.stderr)
+
+        refused = self.run_cli("custom", "remove", "my-chime", "--yes")
+        self.assertEqual(2, refused.returncode)
+        self.assertIn("assigned", refused.stderr)
+
+        restored = self.run_cli("configure", "--complete", "rooster")
+        self.assertEqual(0, restored.returncode, restored.stderr)
+        removed = self.run_cli("custom", "remove", "custom:my-chime", "--yes")
+        self.assertEqual(0, removed.returncode, removed.stderr)
 
     def test_unconfigured_hook_emits_valid_first_run_json(self):
         payload = json.dumps({"hook_event_name": "SessionStart"})

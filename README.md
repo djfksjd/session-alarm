@@ -13,7 +13,7 @@
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="40 sounds" src="https://img.shields.io/badge/animal_sounds-40-FFB703?style=flat-square">
+  <img alt="40 built-in sounds plus custom WAV" src="https://img.shields.io/badge/sounds-40_built--in_%2B_yours-FFB703?style=flat-square">
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-14213D?style=flat-square">
 </p>
 
@@ -30,13 +30,14 @@ Session Alarm is a hook-based notification plugin made specifically for **Codex*
 **Claude Code**. It plays a sound and can show a desktop notification when an agent needs input,
 finishes a turn, stops with an error, or ends a session.
 
-All 40 choices are generated from original 44.1 kHz acoustic-modeling recipes. No recordings,
-stock effects, model-generated clips, celebrity voices, or third-party samples are included.
+All 40 built-in choices are generated from original 44.1 kHz acoustic-modeling recipes. No
+recordings, stock effects, model-generated clips, celebrity voices, or third-party samples are
+included. You can also import a WAV you created or are licensed to use; it stays on your machine.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 Deterministic</strong><br>Lifecycle hooks fire without relying on the model to remember.</td>
-    <td width="25%" align="center"><strong>🐊 40 animals</strong><br>From cats and ducks to crocodiles, elephants, hyenas, and whales.</td>
+    <td width="25%" align="center"><strong>🐊 40 + yours</strong><br>Choose an animal or import your own local WAV.</td>
     <td width="25%" align="center"><strong>🛡️ Original audio</strong><br>No memes, celebrity voices, broadcasts, stock effects, or third-party samples.</td>
     <td width="25%" align="center"><strong>🏠 Local only</strong><br>No account, server, analytics, telemetry, or network request.</td>
   </tr>
@@ -104,8 +105,8 @@ Requirements: Python 3.9 or newer, plus a native player. Session Alarm uses `afp
 The setup wizard:
 
 1. displays the full catalog grouped by animal family;
-2. lets you preview any sound before selecting it;
-3. maps separate sounds to input, completion, error, and session-end events;
+2. lets you preview any sound or add your own WAV before selecting it;
+3. maps separate built-in or custom sounds to input, completion, error, and session-end events;
 4. sets volume and optional desktop notifications; and
 5. optionally enables quiet hours, including schedules that cross midnight.
 
@@ -124,9 +125,17 @@ python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
 # Or hear just one family
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --group wild --volume 40
 
+# Import your own PCM WAV (up to 30 seconds / 32 MB), then preview it
+python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-chime.wav" \
+  --name "My Chime" --id my-chime --preview
+
+# List or remove your imported sounds
+python3 plugins/session-alarm/scripts/session_alarm.py custom list
+python3 plugins/session-alarm/scripts/session_alarm.py custom remove custom:my-chime --yes
+
 # Configure without the wizard
 python3 plugins/session-alarm/scripts/session_alarm.py configure \
-  --attention crocodile \
+  --attention custom:my-chime \
   --complete elephant \
   --error hyena \
   --session-end owl \
@@ -163,7 +172,7 @@ flowchart LR
     D -- No --> E[First-run setup skill]
     D -- Yes --> F[Classify event]
     F --> G[Quiet-hours + duplicate guard]
-    G --> H[Synthesize/cache WAV]
+    G --> H[Synthesize or normalize/cache WAV]
     H --> I[Native audio player]
     G --> J[Optional desktop notification]
 ```
@@ -173,7 +182,7 @@ a notification failure never stop the coding agent.
 
 ## Configuration and privacy
 
-Configuration and generated WAV cache files stay in:
+Configuration, imported custom WAVs, and generated cache files stay in:
 
 - macOS/Linux: `~/.config/session-alarm/`
 - Windows: `%APPDATA%\session-alarm\`
@@ -182,6 +191,9 @@ Configuration and generated WAV cache files stay in:
 Session Alarm does not store transcripts. It checks the final assistant message in memory only to
 decide whether a stopped turn is asking a question, then discards it. Read the full
 [privacy statement](PRIVACY.md) and [security policy](SECURITY.md).
+
+Imported audio is not bundled, uploaded, or covered by the project's CC0 dedication. You retain
+its rights and are responsible for using audio you created or are licensed to use.
 
 ## Development
 

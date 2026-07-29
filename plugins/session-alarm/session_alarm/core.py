@@ -17,6 +17,13 @@ from typing import Any, Dict, Optional, Tuple
 
 from . import __version__
 from .catalog import SOUND_BY_ID, SOUND_PACK_VERSION, render_wav
+from .custom import (
+    CUSTOM_PREFIX,
+    CustomSoundError,
+    custom_sound,
+    normalize_custom_id,
+    render_custom_sound,
+)
 
 
 SCHEMA_VERSION = 1
@@ -93,6 +100,32 @@ def runtime_path() -> Path:
     return state_dir() / "runtime.json"
 
 
+def sound_exists(sound_id: Any) -> bool:
+    if not isinstance(sound_id, str):
+        return False
+    if sound_id in SOUND_BY_ID:
+        return True
+    if not sound_id.startswith(CUSTOM_PREFIX):
+        return False
+    try:
+        if normalize_custom_id(sound_id) != sound_id:
+            return False
+        metadata = custom_sound(state_dir(), sound_id)
+    except CustomSoundError:
+        return False
+    return metadata is not None and Path(metadata["path"]).is_file()
+
+
+def sound_name(sound_id: str) -> str:
+    if sound_id in SOUND_BY_ID:
+        return sound_id
+    try:
+        metadata = custom_sound(state_dir(), sound_id)
+    except CustomSoundError:
+        metadata = None
+    return str(metadata["name"]) if metadata else sound_id
+
+
 def default_config(language: Optional[str] = None) -> Dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
@@ -145,7 +178,7 @@ def validate_config(value: Dict[str, Any]) -> Dict[str, Any]:
     normalized_sounds: Dict[str, str] = {}
     for event in EVENTS:
         sound_id = sounds.get(event)
-        if sound_id not in SOUND_BY_ID:
+        if not sound_exists(sound_id):
             raise ConfigError("unknown sound for {0}: {1}".format(event, sound_id))
         normalized_sounds[event] = sound_id
     config["sounds"] = normalized_sounds
@@ -236,19 +269,40 @@ def quiet_now(config: Dict[str, Any], now: Optional[dt.datetime] = None) -> bool
 
 def sound_path(sound_id: str, volume: float) -> Path:
     volume_key = int(round(volume * 100))
+    if sound_id.startswith(CUSTOM_PREFIX):
+        try:
+            if normalize_custom_id(sound_id) != sound_id:
+                raise ConfigError("invalid custom sound ID: {0}".format(sound_id))
+        except CustomSoundError as exc:
+            raise ConfigError(str(exc)) from exc
+        filename = "custom-{0}.wav".format(sound_id[len(CUSTOM_PREFIX):])
+    elif sound_id in SOUND_BY_ID:
+        filename = "{0}.wav".format(sound_id)
+    else:
+        raise ConfigError("unknown sound: {0}".format(sound_id))
     return (
         state_dir()
         / "sounds"
         / "pack-v{0}".format(SOUND_PACK_VERSION)
         / "v{0:03d}".format(volume_key)
-        / "{0}.wav".format(sound_id)
+        / filename
     )
 
 
 def ensure_sound(sound_id: str, volume: float) -> Path:
+    if not 0.0 <= volume <= 1.0:
+        raise ValueError("volume must be between 0.0 and 1.0")
     path = sound_path(sound_id, volume)
     if not path.exists():
-        render_wav(sound_id, path, volume)
+        if sound_id in SOUND_BY_ID:
+            render_wav(sound_id, path, volume)
+        elif sound_id.startswith(CUSTOM_PREFIX):
+            try:
+                render_custom_sound(state_dir(), sound_id, path, volume)
+            except CustomSoundError as exc:
+                raise ConfigError(str(exc)) from exc
+        else:
+            raise ConfigError("unknown sound: {0}".format(sound_id))
     return path
 
 
@@ -516,14 +570,16 @@ def first_run_context(source: str, language: str) -> str:
         return (
             "Session Alarm이 설치되었지만 아직 최초 설정이 완료되지 않았습니다. "
             "본 작업을 시작하기 전에 사용자에게 지금 설정할지 한 번 물어보세요. "
-            "동의하면 번들된 session-alarm 스킬을 사용해 네 가지 이벤트의 동물 소리, "
-            "음량, 데스크톱 알림과 방해금지 시간을 선택하고 설정을 저장하세요."
+            "동의하면 번들된 session-alarm 스킬을 사용해 네 가지 이벤트의 내장 동물 "
+            "소리 또는 사용자의 WAV 파일, 음량, 데스크톱 알림과 방해금지 시간을 "
+            "선택하고 설정을 저장하세요."
         )
     return (
         "Session Alarm is installed but its first-run setup is incomplete. "
         "Before starting the requested work, ask once whether the user wants to configure it now. "
-        "If they agree, use the bundled session-alarm skill to choose animal sounds for all four "
-        "events, volume, desktop notifications, and quiet hours, then save the configuration."
+        "If they agree, use the bundled session-alarm skill to choose built-in animal sounds or "
+        "the user's own WAV files for all four events, volume, desktop notifications, and quiet "
+        "hours, then save the configuration."
     )
 
 

@@ -20,7 +20,8 @@ The entry point is `<plugin-root>/scripts/session_alarm.py`.
 
 ## First-run setup
 
-1. Run `catalog --json --language <ko|en>` and use the returned 40-item catalog.
+1. Run `catalog --json --language <ko|en>` and use the returned built-in catalog plus any
+   previously imported custom sounds.
 2. Ask the user to choose one sound for each event:
    - `attention`: the agent needs input or permission.
    - `complete`: the current work or turn finished.
@@ -29,6 +30,9 @@ The entry point is `<plugin-root>/scripts/session_alarm.py`.
 3. Also ask for volume from 0 to 100, desktop notifications on/off, and optional quiet hours.
    Keep the questions compact and group them in one message when the host supports it.
 4. Offer `preview <sound-id> --volume <0-100>` whenever the user wants to hear a candidate.
+   If the user wants their own sound, import a local PCM WAV (30 seconds/32 MB maximum) with
+   `custom add <path> --name <label> --preview`. Never infer that the user owns rights to an
+   arbitrary file; remind them to use audio they created or are licensed to use.
 5. Save the choices with one command:
 
 ```text
@@ -45,10 +49,12 @@ the exact status without changing system packages unless the user asks.
 - Show settings: `status` or `status --json`
 - List sounds: `catalog`
 - Preview one sound: `preview <sound-id>`
+- Add a local WAV: `custom add <path> --name <label> --preview`
+- List imported sounds: `custom list`
+- Remove an unassigned imported sound: `custom remove <custom:id> --yes`
 - Test configured mappings: `test <attention|complete|error|session_end|all>`
 - Temporarily disable: `configure --enabled off`
 - Re-enable: `configure --enabled on`
 - Reset first-run state: `reset --yes`
 
 Do not edit `config.json` by hand. Use the CLI so settings are validated and written atomically.
-

@@ -5,8 +5,8 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
-import os
 import re
+import shlex
 import sys
 import time
 from pathlib import Path
@@ -19,11 +19,16 @@ from .catalog import (
     SOUND_BY_ID,
     localized_description,
     localized_name,
-    render_wav,
+)
+from .custom import (
+    CustomSoundError,
+    import_custom_sound,
+    load_custom_sounds,
+    normalize_custom_id,
+    remove_custom_sound,
 )
 from .core import (
     ConfigError,
-    DEFAULT_SOUNDS,
     EVENTS,
     config_path,
     default_config,
@@ -36,8 +41,9 @@ from .core import (
     reset_config,
     run_hook,
     save_config,
+    sound_exists,
+    sound_name,
     state_dir,
-    validate_config,
 )
 
 
@@ -104,13 +110,42 @@ def _catalog_rows(language: str) -> List[Dict[str, str]]:
     return rows
 
 
-def _show_catalog(language: str) -> None:
+def _custom_rows() -> List[Dict[str, str]]:
+    rows = []
+    for sound_id, metadata in sorted(
+        load_custom_sounds(state_dir()).items(),
+        key=lambda item: (str(item[1]["name"]).casefold(), item[0]),
+    ):
+        rows.append(
+            {
+                "id": sound_id,
+                "group": "custom",
+                "name": str(metadata["name"]),
+                "description": "사용자 WAV" if detect_language() == "ko" else "User WAV",
+            }
+        )
+    return rows
+
+
+def _all_rows(language: str) -> List[Dict[str, str]]:
     rows = _catalog_rows(language)
+    for row in _custom_rows():
+        row["description"] = "사용자 WAV" if language == "ko" else "User WAV"
+        rows.append(row)
+    return rows
+
+
+def _show_catalog(language: str) -> None:
+    rows = _all_rows(language)
     current_group = None
     for index, row in enumerate(rows, 1):
         if row["group"] != current_group:
             current_group = row["group"]
-            group_label = GROUP_NAMES[current_group][1 if language == "ko" else 0]
+            group_label = (
+                "내 사운드" if language == "ko" else "My sounds"
+            ) if current_group == "custom" else GROUP_NAMES[current_group][
+                1 if language == "ko" else 0
+            ]
             _print("\n[{0}]".format(group_label))
         _print(
             "{0:>2}. {1:<12} {2} — {3}".format(
@@ -124,7 +159,7 @@ def _show_catalog(language: str) -> None:
 
 def command_catalog(args: argparse.Namespace) -> int:
     language = _language(args.language)
-    rows = _catalog_rows(language)
+    rows = _all_rows(language)
     if args.json:
         _print(json.dumps(rows, ensure_ascii=False, indent=2))
     else:
@@ -146,7 +181,7 @@ def _preview(sound_id: str, volume: float) -> bool:
 
 
 def command_preview(args: argparse.Namespace) -> int:
-    if args.sound not in SOUND_BY_ID:
+    if not sound_exists(args.sound):
         _error("Unknown sound: {0}".format(args.sound))
         return 2
     volume = _parse_volume(args.volume)
@@ -219,12 +254,13 @@ def _choose_sound(
     volume: float,
     language: str,
 ) -> str:
-    rows = _catalog_rows(language)
+    rows = _all_rows(language)
     event_name = EVENT_NAMES[language][event]
     instructions = (
-        "번호로 선택, 'p 번호'로 미리 듣기, 'l'로 목록 다시 보기, 'q'로 취소"
+        "번호로 선택, 'p 번호'로 미리 듣기, 'a WAV경로'로 내 소리 추가, 'l'로 목록, 'q'로 취소"
         if language == "ko"
-        else "Choose a number, use 'p NUMBER' to preview, 'l' to list again, or 'q' to cancel"
+        else "Choose a number, 'p NUMBER' to preview, 'a WAV_PATH' to add your sound, "
+        "'l' to list, or 'q' to cancel"
     )
     _print("\n{0} — {1}".format(event_name, instructions))
     current_index = next(
@@ -239,6 +275,32 @@ def _choose_sound(
             raise KeyboardInterrupt
         if value.lower() == "l":
             _show_catalog(language)
+            rows = _all_rows(language)
+            continue
+        add_match = re.match(r"^(?:a|add)\s+(.+)$", value, re.IGNORECASE)
+        if add_match:
+            try:
+                path_parts = shlex.split(add_match.group(1))
+                if len(path_parts) != 1:
+                    raise CustomSoundError("enter one WAV file path")
+                metadata = import_custom_sound(state_dir(), Path(path_parts[0]))
+                _print(
+                    "내 사운드를 추가했습니다: {0} ({1})".format(
+                        metadata["name"], metadata["id"]
+                    )
+                    if language == "ko"
+                    else "Added your sound: {0} ({1})".format(
+                        metadata["name"], metadata["id"]
+                    )
+                )
+                _preview(str(metadata["id"]), volume)
+                return str(metadata["id"])
+            except (CustomSoundError, OSError, ValueError) as exc:
+                _print(
+                    "추가할 수 없습니다: {0}".format(exc)
+                    if language == "ko"
+                    else "Could not add sound: {0}".format(exc)
+                )
             continue
         preview_match = re.fullmatch(r"p\s*(\d+)", value.lower())
         if preview_match:
@@ -252,7 +314,7 @@ def _choose_sound(
             selected = rows[int(value) - 1]["id"]
             _preview(selected, volume)
             return selected
-        if value in SOUND_BY_ID:
+        if sound_exists(value):
             _preview(value, volume)
             return value
         _print(
@@ -300,10 +362,10 @@ def command_setup(args: argparse.Namespace) -> int:
 
     if language == "ko":
         _print("Session Alarm 최초 설정")
-        _print("외부 샘플 없이 직접 합성한 44.1kHz 동물 사운드 40종을 제공합니다.")
+        _print("직접 합성한 동물 사운드 40종을 제공하며, 내 WAV 파일도 추가할 수 있습니다.")
     else:
         _print("Session Alarm first-run setup")
-        _print("Choose from 40 original 44.1 kHz animal sounds with no samples.")
+        _print("Choose from 40 original sounds or add your own WAV file.")
     _show_catalog(language)
 
     try:
@@ -385,7 +447,7 @@ def command_configure(args: argparse.Namespace) -> int:
     for event in EVENTS:
         value = getattr(args, event)
         if value is not None:
-            if value not in SOUND_BY_ID:
+            if not sound_exists(value):
                 _error("Unknown sound for {0}: {1}".format(event, value))
                 return 2
             config["sounds"][event] = value
@@ -425,11 +487,15 @@ def command_status(args: argparse.Namespace) -> int:
     _print("Sounds:")
     for event in EVENTS:
         sound_id = config["sounds"][event]
-        sound = SOUND_BY_ID[sound_id]
+        if sound_id in SOUND_BY_ID:
+            sound = SOUND_BY_ID[sound_id]
+            label = localized_name(sound, language)
+        else:
+            label = sound_name(sound_id)
         _print(
             "  {0}: {1} ({2})".format(
                 EVENT_NAMES[language][event],
-                localized_name(sound, language),
+                label,
                 sound_id,
             )
         )
@@ -464,6 +530,82 @@ def command_reset(args: argparse.Namespace) -> int:
         return 2
     removed = reset_config()
     _print("Configuration removed." if removed else "No configuration found.")
+    return 0
+
+
+def command_custom_add(args: argparse.Namespace) -> int:
+    try:
+        metadata = import_custom_sound(
+            state_dir(),
+            Path(args.file),
+            name=args.name,
+            requested_id=args.id,
+        )
+    except (CustomSoundError, OSError) as exc:
+        _error(str(exc))
+        return 2
+    _print(
+        json.dumps(metadata, ensure_ascii=False, indent=2)
+        if args.json
+        else "Added {0} as {1}".format(metadata["name"], metadata["id"])
+    )
+    if args.preview:
+        return 0 if _preview(str(metadata["id"]), _parse_volume(args.volume)) else 1
+    return 0
+
+
+def command_custom_list(args: argparse.Namespace) -> int:
+    sounds = list(load_custom_sounds(state_dir()).values())
+    sounds.sort(key=lambda item: (str(item["name"]).casefold(), str(item["id"])))
+    if args.json:
+        _print(json.dumps(sounds, ensure_ascii=False, indent=2))
+        return 0
+    if not sounds:
+        _print("No custom sounds.")
+        return 0
+    for metadata in sounds:
+        _print(
+            "{0:<28} {1} ({2:.2f}s)".format(
+                metadata["id"],
+                metadata["name"],
+                float(metadata["duration_seconds"]),
+            )
+        )
+    return 0
+
+
+def command_custom_remove(args: argparse.Namespace) -> int:
+    try:
+        sound_id = normalize_custom_id(args.sound)
+    except CustomSoundError as exc:
+        _error(str(exc))
+        return 2
+    config = load_config()
+    assigned = [
+        event
+        for event in EVENTS
+        if config is not None and config["sounds"].get(event) == sound_id
+    ]
+    if assigned:
+        _error(
+            "Cannot remove {0}; it is assigned to: {1}. Reconfigure those events first.".format(
+                sound_id,
+                ", ".join(assigned),
+            )
+        )
+        return 2
+    if not args.yes:
+        _error("Refusing to remove a custom sound without --yes.")
+        return 2
+    try:
+        removed = remove_custom_sound(state_dir(), sound_id)
+    except (CustomSoundError, OSError) as exc:
+        _error(str(exc))
+        return 2
+    if removed is None:
+        _error("Unknown custom sound: {0}".format(sound_id))
+        return 2
+    _print("Removed {0} ({1}).".format(removed["name"], sound_id))
     return 0
 
 
@@ -517,6 +659,30 @@ def build_parser() -> argparse.ArgumentParser:
     preview_all.add_argument("--gap", type=float, default=0.2)
     preview_all.set_defaults(func=command_preview_all)
 
+    custom = subparsers.add_parser(
+        "custom",
+        help="import and manage your own local WAV notification sounds",
+    )
+    custom_subparsers = custom.add_subparsers(dest="custom_command", required=True)
+
+    custom_add = custom_subparsers.add_parser("add", help="import a local PCM WAV")
+    custom_add.add_argument("file")
+    custom_add.add_argument("--name")
+    custom_add.add_argument("--id")
+    custom_add.add_argument("--preview", action="store_true")
+    custom_add.add_argument("--volume", default=70)
+    custom_add.add_argument("--json", action="store_true")
+    custom_add.set_defaults(func=command_custom_add)
+
+    custom_list = custom_subparsers.add_parser("list", help="list imported sounds")
+    custom_list.add_argument("--json", action="store_true")
+    custom_list.set_defaults(func=command_custom_list)
+
+    custom_remove = custom_subparsers.add_parser("remove", help="remove an imported sound")
+    custom_remove.add_argument("sound")
+    custom_remove.add_argument("--yes", action="store_true")
+    custom_remove.set_defaults(func=command_custom_remove)
+
     configure = subparsers.add_parser(
         "configure",
         help="write configuration without the interactive wizard",
@@ -530,7 +696,6 @@ def build_parser() -> argparse.ArgumentParser:
         configure.add_argument(
             "--{0}".format(event.replace("_", "-")),
             dest=event,
-            choices=tuple(SOUND_BY_ID),
         )
     configure.set_defaults(func=command_configure)
 

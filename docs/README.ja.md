@@ -31,6 +31,7 @@ Session Alarm は、**Codex と Claude Code 専用のフックベース通知プ
 
 40 種類すべてを、オリジナルの 44.1 kHz 音響モデリングレシピから生成します。
 録音、ストック効果音、AI 生成クリップ、有名人の声、外部サンプルは含まれません。
+自作または利用許諾を得た WAV も追加できます。ファイルは端末内だけに保存されます。
 
 <table>
   <tr>
@@ -96,7 +97,7 @@ Python 3.9 以上が必要です。macOS では `afplay`、Linux では
 
 ## 初回設定
 
-初回ウィザードでは、全サウンドの確認と試聴、4 イベントそれぞれの音、音量、
+初回ウィザードでは、全サウンドの確認と試聴、独自 WAV の追加、4 イベントそれぞれの音、音量、
 デスクトップ通知、深夜をまたぐ静音時間を設定できます。設定は同じマシン上の
 Codex と Claude Code で共有されます。
 
@@ -109,6 +110,10 @@ python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volum
 
 # 40 種類を順番に試聴（停止: Ctrl+C）
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
+
+# 独自 WAV を追加して試聴（最大 30 秒 / 32 MB）
+python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-sound.wav" \
+  --name "My Sound" --id my-sound --preview
 
 # すべてのイベントをテスト
 python3 plugins/session-alarm/scripts/session_alarm.py test all
@@ -130,10 +135,12 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 
 ## プライバシーとライセンス
 
-設定と生成 WAV キャッシュは macOS/Linux の `~/.config/session-alarm/` または Windows の
+設定、追加した WAV、生成キャッシュは macOS/Linux の `~/.config/session-alarm/` または Windows の
 `%APPDATA%\session-alarm\` にのみ保存されます。会話やファイルの内容を保存・送信せず、
 ネットワーク要求も行いません。詳細は[プライバシー](../PRIVACY.md)と
 [セキュリティポリシー](../SECURITY.md)をご覧ください。
+
+追加した音声の権利は変更されません。自作または利用許諾を得た音声のみを使用してください。
 
 コードは [MIT](../LICENSE)、オリジナルレシピのみから生成した WAV は
 [CC0 1.0](../SOUND_LICENSE.md) です。

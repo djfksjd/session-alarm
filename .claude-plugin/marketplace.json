@@ -12,7 +12,7 @@
       "name": "session-alarm",
       "source": "./plugins/session-alarm",
       "description": "Animal-sound alerts when a coding agent needs input, finishes, fails, or ends a session.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Danny"
       },
@@ -31,4 +31,3 @@
     }
   ]
 }
-

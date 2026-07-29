@@ -20,5 +20,6 @@ Configuration is stored locally:
 - Windows: `%APPDATA%\session-alarm\config.json`
 - Tests and advanced setups may override the directory with `SESSION_ALARM_HOME`.
 
-Generated WAV cache files and a small deduplication timestamp are stored beside the configuration.
+Generated WAV cache files, user-imported custom WAVs, and a small deduplication timestamp are
+stored beside the configuration. Imported audio is normalized locally and never uploaded.
 Desktop notifications contain only generic status text such as “Claude Code needs your input.”

@@ -30,6 +30,7 @@ Session Alarm 是专为 **Codex 和 Claude Code** 设计的生命周期钩子通
 
 全部 40 种声音均由原创 44.1 kHz 声学建模配方生成，不包含录音、素材音效、
 AI 生成片段、名人声音或第三方样本。
+也可以添加自己制作或已获授权的 WAV；文件始终保存在本机。
 
 <table>
   <tr>
@@ -94,7 +95,7 @@ python3 plugins/session-alarm/scripts/session_alarm.py setup
 
 ## 首次配置
 
-首次设置向导可以浏览并试听完整目录，分别选择“需要输入、完成、错误、会话结束”的声音，
+首次设置向导可以浏览并试听完整目录、添加自己的 WAV，分别选择“需要输入、完成、错误、会话结束”的声音，
 设置音量、桌面通知和可跨越午夜的免打扰时段。Codex 与 Claude Code 共享同一份本地配置。
 
 ```bash
@@ -106,6 +107,10 @@ python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volum
 
 # 按顺序试听全部 40 种声音（停止：Ctrl+C）
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
+
+# 添加并试听自己的 WAV（最长 30 秒 / 32 MB）
+python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-sound.wav" \
+  --name "My Sound" --id my-sound --preview
 
 # 测试全部四个事件
 python3 plugins/session-alarm/scripts/session_alarm.py test all
@@ -127,9 +132,11 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 
 ## 隐私与许可
 
-配置和生成的 WAV 缓存只保存在 macOS/Linux 的 `~/.config/session-alarm/` 或 Windows 的
+配置、导入的 WAV 和生成缓存只保存在 macOS/Linux 的 `~/.config/session-alarm/` 或 Windows 的
 `%APPDATA%\session-alarm\`。本项目不保存或传输对话和文件内容，也不发起网络请求。
 详见[隐私说明](../PRIVACY.md)和[安全策略](../SECURITY.md)。
+
+导入音频的权利不会改变；请仅使用自己制作或已获授权的音频。
 
 代码采用 [MIT 许可证](../LICENSE)，仅由原创配方生成的 WAV 依据
 [CC0 1.0](../SOUND_LICENSE.md) 提供。

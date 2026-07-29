@@ -13,7 +13,7 @@
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="../LICENSE"><img alt="MIT 라이선스" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="동물 소리 40종" src="https://img.shields.io/badge/동물_소리-40종-FFB703?style=flat-square">
+  <img alt="내장 40종과 사용자 WAV" src="https://img.shields.io/badge/사운드-내장_40종_%2B_내_소리-FFB703?style=flat-square">
 </p>
 
 <p align="center">
@@ -29,13 +29,14 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 사용자 입력을 기다리거나, 현재 작업을 마치거나, 오류로 중단되거나, 세션을 종료할 때
 소리와 선택적 데스크톱 알림을 보냅니다.
 
-40종 모두 44.1kHz 자체 음향 모델링 레시피로 생성합니다. 녹음·스톡 효과음·AI 생성
-클립·유명인 음성·외부 샘플은 하나도 포함하지 않습니다.
+내장 40종 모두 44.1kHz 자체 음향 모델링 레시피로 생성합니다. 녹음·스톡 효과음·AI
+생성 클립·유명인 음성·외부 샘플은 하나도 포함하지 않습니다. 직접 만들었거나 사용
+허가를 받은 WAV도 추가할 수 있으며, 파일은 사용자 컴퓨터 밖으로 전송되지 않습니다.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 확실한 작동</strong><br>모델의 기억이 아니라 라이프사이클 훅으로 실행됩니다.</td>
-    <td width="25%" align="center"><strong>🐊 동물 40종</strong><br>고양이와 오리부터 악어·코끼리·하이에나·고래까지 제공합니다.</td>
+    <td width="25%" align="center"><strong>🐊 40종 + 내 소리</strong><br>동물 소리를 고르거나 내 WAV를 추가합니다.</td>
     <td width="25%" align="center"><strong>🛡️ 자체 제작 음원</strong><br>밈·유명인·방송·스톡 효과음·외부 샘플을 사용하지 않습니다.</td>
     <td width="25%" align="center"><strong>🏠 완전한 로컬</strong><br>계정·서버·분석·텔레메트리·네트워크 요청이 없습니다.</td>
   </tr>
@@ -101,8 +102,8 @@ Windows는 `winsound`를 사용합니다.
 설정 마법사에서 다음을 할 수 있습니다.
 
 1. 동물 분류별로 정리된 전체 카탈로그 확인
-2. 선택하기 전 원하는 사운드 미리 듣기
-3. 입력 필요·완료·오류·세션 종료에 서로 다른 소리 지정
+2. 선택하기 전 원하는 사운드를 듣거나 내 WAV 추가
+3. 입력 필요·완료·오류·세션 종료에 내장 또는 사용자 소리 지정
 4. 음량과 데스크톱 알림 설정
 5. 자정을 넘는 시간도 지원하는 방해금지 시간 설정
 
@@ -121,9 +122,17 @@ python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40 -
 # 야생동물만 듣기
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --group wild --volume 40 --language ko
 
+# 직접 만든 WAV 추가 후 즉시 미리 듣기 (최대 30초 / 32MB)
+python3 plugins/session-alarm/scripts/session_alarm.py custom add "./내 효과음.wav" \
+  --name "내 효과음" --id my-sound --preview
+
+# 추가한 소리 확인 또는 삭제
+python3 plugins/session-alarm/scripts/session_alarm.py custom list
+python3 plugins/session-alarm/scripts/session_alarm.py custom remove custom:my-sound --yes
+
 # 마법사 없이 설정
 python3 plugins/session-alarm/scripts/session_alarm.py configure \
-  --attention crocodile \
+  --attention custom:my-sound \
   --complete elephant \
   --error hyena \
   --session-end owl \
@@ -170,10 +179,11 @@ Codex나 Claude Code의 작업을 막지 않습니다.
 
 ## 개인정보와 라이선스
 
-설정과 생성된 WAV 캐시는 macOS/Linux의 `~/.config/session-alarm/` 또는 Windows의
-`%APPDATA%\session-alarm\`에만 저장됩니다. 대화나 파일 내용을 저장·전송하지 않으며
-네트워크 요청도 하지 않습니다. 자세한 내용은 [개인정보 안내](../PRIVACY.md)와
-[보안 정책](../SECURITY.md)을 확인하세요.
+설정, 추가한 사용자 WAV, 생성된 캐시는 macOS/Linux의 `~/.config/session-alarm/`
+또는 Windows의 `%APPDATA%\session-alarm\`에만 저장됩니다. 대화나 파일 내용을
+저장·전송하지 않으며 네트워크 요청도 하지 않습니다. 사용자가 추가한 음원의 권리는
+사용자에게 있으며, 직접 만들었거나 사용 허가를 받은 파일만 사용해야 합니다. 자세한
+내용은 [개인정보 안내](../PRIVACY.md)와 [보안 정책](../SECURITY.md)을 확인하세요.
 
 코드는 [MIT 라이선스](../LICENSE)이며 자체 레시피로 생성한 WAV는
 [CC0 1.0](../SOUND_LICENSE.md)으로 제공합니다.

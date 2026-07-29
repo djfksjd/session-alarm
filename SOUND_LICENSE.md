@@ -19,3 +19,10 @@ generated effect is a recording of that animal.
 Sound contributions must be original recipes. Pull requests containing recordings, extracted
 samples, model-generated audio of unclear provenance, or imitations of identifiable copyrighted
 clips will not be accepted.
+
+## User-imported sounds
+
+The `custom add` command can copy a user's local WAV into their private Session Alarm data
+directory. Those files are never included in this repository, uploaded, redistributed, or covered
+by the MIT/CC0 terms above. Their original rights and license remain unchanged. Users are
+responsible for importing only audio they created or are authorized to use.
