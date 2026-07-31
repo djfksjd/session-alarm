@@ -12,9 +12,9 @@
 <p align="center">
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="../LICENSE"><img alt="MIT 라이선스" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
-  <a href="../SOUND_LICENSE.md"><img alt="Pixabay Content License 음원" src="https://img.shields.io/badge/음원-Pixabay_Content_License-00AB6B?style=flat-square"></a>
+  <a href="../SOUND_LICENSE.md"><img alt="검증된 CC0 음원 출처" src="https://img.shields.io/badge/음원-CC0_파일별_출처-00AB6B?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="내장 40종과 사용자 WAV" src="https://img.shields.io/badge/사운드-내장_40종_%2B_내_소리-FFB703?style=flat-square">
+  <img alt="내장 12종과 사용자 WAV" src="https://img.shields.io/badge/사운드-실제_동물_12종_%2B_내_소리-FFB703?style=flat-square">
 </p>
 
 <p align="center">
@@ -30,15 +30,16 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 사용자 입력을 기다리거나, 현재 작업을 마치거나, 오류로 중단되거나, 세션을 종료할 때
 소리와 선택적 데스크톱 알림을 보냅니다.
 
-내장 40종은 상업적·비상업적 사용이 가능한 Pixabay Content License 동물 효과음입니다.
-모든 파일의 출처 페이지·확인일·SHA-256을 매니페스트에 기록합니다. 직접 만들었거나
-사용 허가를 받은 WAV도 추가할 수 있으며 사용자 파일은 컴퓨터 밖으로 전송되지 않습니다.
+내장 12종은 실제 동물을 녹음한 짧은 알림음입니다. 수집 당시 각 Freesound 개별 페이지에
+CC0 1.0 Universal로 표시된 파일만 골랐으며, 정확한 페이지·기여자·공개 미리듣기 원본과
+가공 파일의 SHA-256을 매니페스트에 기록합니다. 직접 만들었거나 사용 허가를 받은 WAV도
+추가할 수 있으며 사용자 파일은 컴퓨터 밖으로 전송되지 않습니다.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 확실한 작동</strong><br>모델의 기억이 아니라 라이프사이클 훅으로 실행됩니다.</td>
-    <td width="25%" align="center"><strong>🐊 40종 + 내 소리</strong><br>동물 소리를 고르거나 내 WAV를 추가합니다.</td>
-    <td width="25%" align="center"><strong>🛡️ 라이선스 확인</strong><br>상업적 이용 조건·출처·확인일·파일 해시를 공개합니다.</td>
+    <td width="25%" align="center"><strong>🐈 12종 + 내 소리</strong><br>실제 동물 녹음을 고르거나 내 WAV를 추가합니다.</td>
+    <td width="25%" align="center"><strong>🛡️ 라이선스 확인</strong><br>파일별 출처·확인일·원본 및 가공 파일 해시를 공개합니다.</td>
     <td width="25%" align="center"><strong>🏠 완전한 로컬</strong><br>계정·서버·분석·텔레메트리·네트워크 요청이 없습니다.</td>
   </tr>
 </table>
@@ -49,9 +50,9 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 
 | 이벤트 | Codex | Claude Code | 기본값 |
 |---|---|---|---|
-| 사용자 입력 필요 | 권한 요청 또는 질문으로 끝난 응답 | 권한·선택 창·백그라운드 에이전트 입력 또는 질문 | 오리 |
+| 사용자 입력 필요 | 권한 요청 또는 질문으로 끝난 응답 | 권한·선택 창·백그라운드 에이전트 입력 또는 질문 | 고양이 |
 | 작업 완료 | 현재 응답 종료 | 현재 응답 또는 백그라운드 에이전트 완료 | 수탉 |
-| 오류 | 감지 가능한 오류 이벤트 | `StopFailure` | 개구리 |
+| 오류 | 감지 가능한 오류 이벤트 | `StopFailure` | 까마귀 |
 | 세션 종료 | `SessionEnd` | `SessionEnd` | 올빼미 |
 
 > [!NOTE]
@@ -59,8 +60,8 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 > 세션 예약이 진행 중이라고 확인되면 완료 알림을 울리지 않습니다.
 
 > [!IMPORTANT]
-> 내장 음원은 Session Alarm 자체 제작물이나 MIT·CC0 음원이 아닙니다. Pixabay 음원을
-> 앱 기능에 통합한 것이므로 파일만 따로 추출하거나 효과음 라이브러리로 재배포하면 안 됩니다.
+> Freesound에는 여러 라이선스의 음원이 섞여 있습니다. 이 저장소에 기록된 12개 개별
+> 페이지에서만 CC0 표시를 확인했으며 Freesound 전체를 CC0로 간주하면 안 됩니다.
 
 ## 설치
 
@@ -118,14 +119,14 @@ Codex와 Claude Code는 같은 로컬 설정을 공유합니다.
 # 전체 사운드 보기
 python3 plugins/session-alarm/scripts/session_alarm.py catalog --language ko
 
-# 악어 소리 미리 듣기
-python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volume 70
+# 고양이 소리 미리 듣기
+python3 plugins/session-alarm/scripts/session_alarm.py preview cat --volume 70
 
-# 40종 전체를 순서대로 듣기 (중단: Ctrl+C)
+# 12종 전체를 순서대로 듣기 (중단: Ctrl+C)
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40 --language ko
 
-# 야생동물만 듣기
-python3 plugins/session-alarm/scripts/session_alarm.py preview-all --group wild --volume 40 --language ko
+# 농장동물만 듣기
+python3 plugins/session-alarm/scripts/session_alarm.py preview-all --group farm --volume 40 --language ko
 
 # 직접 만든 WAV 추가 후 즉시 미리 듣기 (최대 30초 / 32MB)
 python3 plugins/session-alarm/scripts/session_alarm.py custom add "./내 효과음.wav" \
@@ -138,8 +139,8 @@ python3 plugins/session-alarm/scripts/session_alarm.py custom remove custom:my-s
 # 마법사 없이 설정
 python3 plugins/session-alarm/scripts/session_alarm.py configure \
   --attention custom:my-sound \
-  --complete elephant \
-  --error hyena \
+  --complete rooster \
+  --error crow \
   --session-end owl \
   --volume 65 \
   --notifications on \
@@ -150,16 +151,14 @@ python3 plugins/session-alarm/scripts/session_alarm.py configure \
 python3 plugins/session-alarm/scripts/session_alarm.py test all
 ```
 
-## 동물 사운드 40종
+## 실제 동물 사운드 12종
 
 | 분류 | 사운드 |
 |---|---|
-| 반려동물 | 고양이, 아기 고양이, 강아지, 아기 강아지 |
-| 농장동물 | 소, 말, 당나귀, 돼지, 염소, 양, 오리, 거위, 암탉, 수탉, 칠면조 |
-| 야생동물 | 늑대, 여우, 사자, 코끼리, 원숭이, 곰, 악어, 하이에나, 낙타, 라쿤, 하마, 뱀 |
-| 새 | 올빼미, 까마귀, 참새, 독수리, 공작, 펭귄 |
-| 작은 생물 | 개구리, 귀뚜라미, 벌, 모기 |
-| 바다동물 | 돌고래, 물개, 고래 |
+| 반려동물 | 고양이, 강아지 |
+| 농장동물 | 소, 말, 돼지, 염소, 양, 수탉 |
+| 새 | 올빼미, 까마귀 |
+| 작은 생물 | 개구리, 귀뚜라미 |
 
 알림에 맞게 짧고 균일하게 정규화했습니다. [음원 출처 및 라이선스](../SOUND_LICENSE.md)와
 [파일별 매니페스트](../plugins/session-alarm/assets/sounds/sources.json)를 확인하세요.
@@ -190,7 +189,7 @@ Codex나 Claude Code의 작업을 막지 않습니다.
 사용자에게 있으며, 직접 만들었거나 사용 허가를 받은 파일만 사용해야 합니다. 자세한
 내용은 [개인정보 안내](../PRIVACY.md)와 [보안 정책](../SECURITY.md)을 확인하세요.
 
-코드와 문서는 [MIT 라이선스](../LICENSE)입니다. 내장 WAV에는 MIT가 적용되지 않으며
-[Pixabay Content License](../SOUND_LICENSE.md)가 적용됩니다.
+코드와 문서는 [MIT 라이선스](../LICENSE)입니다. 내장 녹음 12종은 파일별 CC0 출처를
+[음원 출처 및 라이선스](../SOUND_LICENSE.md)에 기록했습니다.
 이 프로젝트는 OpenAI 또는 Anthropic과 제휴하거나 후원받지 않은 독립 오픈소스
 프로젝트입니다.

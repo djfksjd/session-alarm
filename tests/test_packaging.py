@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -49,21 +50,15 @@ class PackagingTests(unittest.TestCase):
                     self.assertEqual("node", hook["command"])
                     self.assertIn("${CLAUDE_PLUGIN_ROOT}/scripts/hook.mjs", hook["args"])
 
-    def test_bundled_audio_has_commercial_license_manifest(self):
+    def test_bundled_audio_has_fail_closed_cc0_manifest(self):
         sound_dir = PLUGIN / "assets" / "sounds"
         sources = read_json(sound_dir / "sources.json")
-        self.assertEqual("Pixabay Content License", sources["license_name"])
-        self.assertEqual(
-            "https://pixabay.com/service/license-summary/",
-            sources["license_url"],
-        )
-        self.assertTrue(sources["commercial_use_permitted"])
-        self.assertTrue(sources["standalone_redistribution_prohibited"])
+        self.assertEqual(3, sources["schema_version"])
 
         entries = sources["sounds"]
-        self.assertEqual(40, len(entries))
-        self.assertEqual(40, len({entry["id"] for entry in entries}))
-        self.assertEqual(40, len({entry["file"] for entry in entries}))
+        self.assertEqual(12, len(entries))
+        self.assertEqual(12, len({entry["id"] for entry in entries}))
+        self.assertEqual(12, len({entry["file"] for entry in entries}))
         for entry in entries:
             with self.subTest(sound=entry["id"]):
                 path = sound_dir / entry["file"]
@@ -72,7 +67,37 @@ class PackagingTests(unittest.TestCase):
                     entry["sha256"],
                     hashlib.sha256(path.read_bytes()).hexdigest(),
                 )
-                self.assertTrue(entry["source_page"].startswith("https://pixabay.com/"))
+                self.assertEqual("freesound_cc0_recording", entry["provenance"])
+                self.assertEqual("CC0 1.0 Universal", entry["license_name"])
+                self.assertEqual(
+                    "https://creativecommons.org/publicdomain/zero/1.0/",
+                    entry["license_url"],
+                )
+                self.assertFalse(entry["attribution_required"])
+                self.assertTrue(entry["source_page"].startswith("https://freesound.org/people/"))
+                self.assertIn("/sounds/", entry["source_page"])
+                self.assertNotIn("/search/", entry["source_page"])
+                self.assertEqual(
+                    "freesound_public_hq_mp3_preview",
+                    entry["source_asset_kind"],
+                )
+                self.assertTrue(entry["source_preview_url"].startswith("https://cdn.freesound.org/"))
+                self.assertEqual(64, len(entry["source_preview_sha256"]))
+                self.assertTrue(entry["contributor"])
+                self.assertTrue(entry["title"])
+
+    def test_committed_audio_and_manifest_pass_offline_verifier(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(PLUGIN / "scripts" / "verify_builtin_sounds.py"),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
     def test_audio_files_exist_only_in_the_licensed_asset_directory(self):
         audio_extensions = {".wav", ".mp3", ".m4a", ".aac", ".ogg", ".flac"}
@@ -81,7 +106,7 @@ class PackagingTests(unittest.TestCase):
             for path in ROOT.rglob("*")
             if path.is_file() and path.suffix.lower() in audio_extensions
         ]
-        self.assertEqual(40, len(found))
+        self.assertEqual(12, len(found))
         sound_dir = PLUGIN / "assets" / "sounds"
         self.assertTrue(all(path.parent == sound_dir for path in found))
 

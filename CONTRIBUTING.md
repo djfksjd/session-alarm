@@ -11,14 +11,19 @@ Contributions are welcome.
 
 ## Sound contributions
 
-New bundled sounds must come from an exact Pixabay asset page that explicitly displays the
-Pixabay Content License. Add the contributor, asset URL, verification date, SHA-256 checksum, and
-commercial-use status to `plugins/session-alarm/assets/sounds/sources.json`.
+Prefer deterministic project-generated tones. Generated files must be reproducible from the
+committed generator and record the generator path, stable seed, license, and SHA-256 checksum in
+`plugins/session-alarm/assets/sounds/sources.json`.
+
+External bundled sounds require an exact asset page, contributor, license and terms URL,
+verification date, SHA-256 checksum, and commercial-use status. Search-result or collection pages
+are not acceptable provenance.
 
 Do not submit media copied from search engines, social networks, broadcasts, videos, celebrity
 voices, or any source whose commercial-use and application-integration rights are unclear.
-Pixabay files must not be presented as original Session Alarm creations or redistributed as a
-standalone sound library. Add localized catalog metadata and tests with each asset.
+External files must not be presented as original Session Alarm creations or redistributed beyond
+their license. Generated tones must not be described as real animal recordings. Add localized
+catalog metadata and tests with each asset.
 
 ## Pull requests
 

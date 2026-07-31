@@ -13,7 +13,7 @@
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="../LICENSE"><img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-2EC4B6?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="40 sonidos" src="https://img.shields.io/badge/sonidos_de_animales-40-FFB703?style=flat-square">
+  <img alt="12 sonidos" src="https://img.shields.io/badge/animales_reales-12-FFB703?style=flat-square">
 </p>
 
 <p align="center">
@@ -30,14 +30,15 @@ Session Alarm es un plugin de notificaciones mediante hooks creado específicame
 escritorio cuando el agente necesita una respuesta, termina un turno, se detiene por un error o
 cierra una sesión.
 
-Los 40 sonidos integrados proceden de Pixabay y se usan bajo la Pixabay Content License, que
-permite usos comerciales y no comerciales. Se registran la página de origen, la fecha de
-verificación y el SHA-256. También puedes añadir un WAV propio o con licencia.
+Los 12 sonidos integrados son grabaciones breves de animales reales. Cada página individual de
+Freesound indicaba CC0 1.0 Universal al recuperarse; el manifiesto registra la página exacta, el
+autor y los SHA-256 de la vista previa pública y del WAV procesado. También puedes añadir un WAV
+propio o con licencia.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 Determinista</strong><br>Los hooks del ciclo de vida funcionan sin depender de la memoria del modelo.</td>
-    <td width="25%" align="center"><strong>🐊 40 animales</strong><br>Desde gatos y patos hasta cocodrilos, elefantes, hienas y ballenas.</td>
+    <td width="25%" align="center"><strong>🐈 12 animales</strong><br>Elige una grabación real o añade tu propio WAV.</td>
     <td width="25%" align="center"><strong>🛡️ Licencia verificada</strong><br>Condiciones comerciales, origen, fecha y sumas de verificación documentadas.</td>
     <td width="25%" align="center"><strong>🏠 Solo local</strong><br>Sin cuenta, servidor, análisis, telemetría ni solicitudes de red.</td>
   </tr>
@@ -47,9 +48,9 @@ verificación y el SHA-256. También puedes añadir un WAV propio o con licencia
 
 | Evento | Codex | Claude Code | Predeterminado |
 |---|---|---|---|
-| Necesita respuesta | Solicitud de permiso o respuesta que termina en pregunta | Permiso, diálogo, agente en segundo plano o pregunta | Pato |
+| Necesita respuesta | Solicitud de permiso o respuesta que termina en pregunta | Permiso, diálogo, agente en segundo plano o pregunta | Gato |
 | Trabajo terminado | Fin de la respuesta actual | Fin de respuesta o agente en segundo plano terminado | Gallo |
-| Error | Evento de error disponible | `StopFailure` | Rana |
+| Error | Evento de error disponible | `StopFailure` | Cuervo |
 | Fin de sesión | `SessionEnd` | `SessionEnd` | Búho |
 
 > [!NOTE]
@@ -106,10 +107,10 @@ silencio que pueden cruzar la medianoche. Codex y Claude Code comparten la misma
 # Mostrar el catálogo
 python3 plugins/session-alarm/scripts/session_alarm.py catalog
 
-# Escuchar el cocodrilo
-python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volume 70
+# Escuchar el gato
+python3 plugins/session-alarm/scripts/session_alarm.py preview cat --volume 70
 
-# Escuchar los 40 sonidos en orden (detener: Ctrl+C)
+# Escuchar los 12 sonidos en orden (detener: Ctrl+C)
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
 
 # Añadir y preescuchar tu WAV (máximo 30 segundos / 32 MB)
@@ -120,16 +121,14 @@ python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-sound.wa
 python3 plugins/session-alarm/scripts/session_alarm.py test all
 ```
 
-## Catálogo de 40 sonidos
+## Catálogo de 12 grabaciones reales
 
 | Familia | Animales |
 |---|---|
-| Mascotas | Gato, gatito, perro, cachorro |
-| Granja | Vaca, caballo, burro, cerdo, cabra, oveja, pato, ganso, gallina, gallo, pavo |
-| Salvajes | Lobo, zorro, león, elefante, mono, oso, cocodrilo, hiena, camello, mapache, hipopótamo, serpiente |
-| Aves | Búho, cuervo, gorrión, águila, pavo real, pingüino |
-| Criaturas pequeñas | Rana, grillo, abeja, mosquito |
-| Océano | Delfín, foca, ballena |
+| Mascotas | Gato, perro |
+| Granja | Vaca, caballo, cerdo, cabra, oveja, gallo |
+| Aves | Búho, cuervo |
+| Criaturas pequeñas | Rana, grillo |
 
 Los archivos están normalizados para notificaciones breves. Consulta la
 [procedencia y licencia](../SOUND_LICENSE.md).
@@ -143,6 +142,7 @@ hay solicitudes de red. Consulta la [declaración de privacidad](../PRIVACY.md) 
 
 Los derechos del audio importado no cambian; usa solo audio propio o con una licencia válida.
 
-El código y la documentación usan la [licencia MIT](../LICENSE). Los WAV integrados no están
-cubiertos por MIT y conservan la [Pixabay Content License](../SOUND_LICENSE.md).
+El código y la documentación usan la [licencia MIT](../LICENSE). La procedencia CC0 de las
+12 grabaciones integradas está documentada en
+[procedencia y licencia](../SOUND_LICENSE.md).
 Este es un proyecto independiente sin afiliación, respaldo ni patrocinio de OpenAI o Anthropic.

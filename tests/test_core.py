@@ -49,10 +49,16 @@ class IsolatedStateTestCase(unittest.TestCase):
 class ConfigurationTests(IsolatedStateTestCase):
     def test_round_trip(self):
         config = default_config("ko")
-        config["sounds"]["attention"] = "crocodile"
+        config["sounds"]["attention"] = "frog"
         path = save_config(config)
         self.assertTrue(path.exists())
-        self.assertEqual("crocodile", load_config()["sounds"]["attention"])
+        self.assertEqual("frog", load_config()["sounds"]["attention"])
+
+    def test_retired_sound_is_migrated_to_real_recording(self):
+        config = default_config("ko")
+        config["sounds"]["attention"] = "crocodile"
+        save_config(config)
+        self.assertEqual("frog", load_config()["sounds"]["attention"])
 
     def test_invalid_sound_is_rejected(self):
         config = default_config("en")

@@ -13,7 +13,7 @@
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="../LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="40 sounds" src="https://img.shields.io/badge/动物声音-40-FFB703?style=flat-square">
+  <img alt="12 sounds" src="https://img.shields.io/badge/真实动物声音-12-FFB703?style=flat-square">
 </p>
 
 <p align="center">
@@ -28,14 +28,14 @@
 Session Alarm 是专为 **Codex 和 Claude Code** 设计的生命周期钩子通知插件。当智能体
 需要输入、完成当前轮次、因错误停止或结束会话时，它会播放声音，并可显示桌面通知。
 
-内置 40 种声音来自 Pixabay，并依据允许商业和非商业使用的 Pixabay Content License
-使用。每个文件都记录来源页面、核验日期和 SHA-256。也可以添加自己制作或已获授权
-的 WAV；用户文件始终保存在本机。
+内置 12 种声音都是真实动物的短录音。每个选定声音在获取时都由其 Freesound 独立页面
+标记为 CC0 1.0 Universal；清单记录准确页面、贡献者、公开预览和处理后 WAV 的 SHA-256。
+也可以添加自己制作或已获授权的 WAV；用户文件始终保存在本机。
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 确定性触发</strong><br>由生命周期钩子运行，不依赖模型记忆。</td>
-    <td width="25%" align="center"><strong>🐊 40 种动物</strong><br>从猫和鸭子到鳄鱼、大象、鬣狗和鲸鱼。</td>
+    <td width="25%" align="center"><strong>🐈 12 种动物</strong><br>选择真实动物录音或添加自己的 WAV。</td>
     <td width="25%" align="center"><strong>🛡️ 许可已核验</strong><br>公开商业使用条件、来源、核验日期和校验和。</td>
     <td width="25%" align="center"><strong>🏠 完全本地</strong><br>无账户、服务器、分析、遥测或网络请求。</td>
   </tr>
@@ -45,9 +45,9 @@ Session Alarm 是专为 **Codex 和 Claude Code** 设计的生命周期钩子通
 
 | 事件 | Codex | Claude Code | 默认声音 |
 |---|---|---|---|
-| 需要输入 | 权限请求或以问题结束的响应 | 权限、选择对话框、后台智能体输入请求或问题 | 鸭子 |
+| 需要输入 | 权限请求或以问题结束的响应 | 权限、选择对话框、后台智能体输入请求或问题 | 猫 |
 | 工作完成 | 当前响应停止 | 当前响应停止或后台智能体完成 | 公鸡 |
-| 错误 | 可用的错误事件 | `StopFailure` | 青蛙 |
+| 错误 | 可用的错误事件 | `StopFailure` | 乌鸦 |
 | 会话结束 | `SessionEnd` | `SessionEnd` | 猫头鹰 |
 
 > [!NOTE]
@@ -102,10 +102,10 @@ python3 plugins/session-alarm/scripts/session_alarm.py setup
 # 查看目录
 python3 plugins/session-alarm/scripts/session_alarm.py catalog
 
-# 试听鳄鱼
-python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volume 70
+# 试听猫
+python3 plugins/session-alarm/scripts/session_alarm.py preview cat --volume 70
 
-# 按顺序试听全部 40 种声音（停止：Ctrl+C）
+# 按顺序试听全部 12 种声音（停止：Ctrl+C）
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
 
 # 添加并试听自己的 WAV（最长 30 秒 / 32 MB）
@@ -116,16 +116,14 @@ python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-sound.wa
 python3 plugins/session-alarm/scripts/session_alarm.py test all
 ```
 
-## 40 种动物声音
+## 12 种真实动物声音
 
 | 类别 | 动物 |
 |---|---|
-| 宠物 | 猫、幼猫、狗、幼犬 |
-| 农场 | 牛、马、驴、猪、山羊、绵羊、鸭、鹅、母鸡、公鸡、火鸡 |
-| 野生 | 狼、狐狸、狮子、大象、猴子、熊、鳄鱼、鬣狗、骆驼、浣熊、河马、蛇 |
-| 鸟类 | 猫头鹰、乌鸦、麻雀、鹰、孔雀、企鹅 |
-| 小型生物 | 青蛙、蟋蟀、蜜蜂、蚊子 |
-| 海洋 | 海豚、海豹、鲸鱼 |
+| 宠物 | 猫、狗 |
+| 农场 | 牛、马、猪、山羊、绵羊、公鸡 |
+| 鸟类 | 猫头鹰、乌鸦 |
+| 小型生物 | 青蛙、蟋蟀 |
 
 音频已针对短通知进行标准化。请参阅[声音来源与许可](../SOUND_LICENSE.md)。
 
@@ -137,6 +135,6 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 
 导入音频的权利不会改变；请仅使用自己制作或已获授权的音频。
 
-代码和文档采用 [MIT 许可证](../LICENSE)。内置 WAV 不属于 MIT 范围，适用
-[Pixabay Content License](../SOUND_LICENSE.md)。
+代码和文档采用 [MIT 许可证](../LICENSE)。12 个内置录音的 CC0 文件级来源记录在
+[声音来源与许可](../SOUND_LICENSE.md)中。
 本项目是独立开源项目，与 OpenAI 或 Anthropic 没有关联、认可或赞助关系。

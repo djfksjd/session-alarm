@@ -29,10 +29,44 @@ from .custom import (
 SCHEMA_VERSION = 1
 EVENTS = ("attention", "complete", "error", "session_end")
 DEFAULT_SOUNDS = {
-    "attention": "duck",
+    "attention": "cat",
     "complete": "rooster",
-    "error": "frog",
+    "error": "crow",
     "session_end": "owl",
+}
+
+# Sound pack v7 intentionally removed synthetic animal-themed tones. Preserve
+# existing user configurations by mapping those retired IDs to the closest
+# retained real-animal recording during validation.
+LEGACY_SOUND_REPLACEMENTS = {
+    "kitten": "cat",
+    "puppy": "dog",
+    "donkey": "horse",
+    "duck": "rooster",
+    "goose": "rooster",
+    "chicken": "rooster",
+    "turkey": "rooster",
+    "wolf": "dog",
+    "fox": "dog",
+    "lion": "cow",
+    "elephant": "cow",
+    "monkey": "crow",
+    "bear": "cow",
+    "crocodile": "frog",
+    "hyena": "dog",
+    "camel": "cow",
+    "raccoon": "crow",
+    "hippo": "cow",
+    "snake": "cricket",
+    "sparrow": "crow",
+    "eagle": "crow",
+    "peacock": "rooster",
+    "penguin": "crow",
+    "bee": "cricket",
+    "mosquito": "cricket",
+    "dolphin": "frog",
+    "seal": "frog",
+    "whale": "frog",
 }
 
 EVENT_COPY = {
@@ -178,6 +212,8 @@ def validate_config(value: Dict[str, Any]) -> Dict[str, Any]:
     normalized_sounds: Dict[str, str] = {}
     for event in EVENTS:
         sound_id = sounds.get(event)
+        if isinstance(sound_id, str):
+            sound_id = LEGACY_SOUND_REPLACEMENTS.get(sound_id, sound_id)
         if not sound_exists(sound_id):
             raise ConfigError("unknown sound for {0}: {1}".format(event, sound_id))
         normalized_sounds[event] = sound_id

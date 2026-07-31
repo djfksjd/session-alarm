@@ -12,9 +12,9 @@
 <p align="center">
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
-  <a href="SOUND_LICENSE.md"><img alt="Pixabay Content License audio" src="https://img.shields.io/badge/audio-Pixabay_Content_License-00AB6B?style=flat-square"></a>
+  <a href="SOUND_LICENSE.md"><img alt="Verified CC0 audio provenance" src="https://img.shields.io/badge/audio-CC0_file_provenance-00AB6B?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="40 built-in sounds plus custom WAV" src="https://img.shields.io/badge/sounds-40_built--in_%2B_yours-FFB703?style=flat-square">
+  <img alt="12 built-in sounds plus custom WAV" src="https://img.shields.io/badge/sounds-12_real_animals_%2B_yours-FFB703?style=flat-square">
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-14213D?style=flat-square">
 </p>
 
@@ -31,15 +31,16 @@ Session Alarm is a hook-based notification plugin made specifically for **Codex*
 **Claude Code**. It plays a sound and can show a desktop notification when an agent needs input,
 finishes a turn, stops with an error, or ends a session.
 
-The 40 built-in choices are higher-fidelity animal effects from Pixabay, licensed for commercial
-and non-commercial use under the Pixabay Content License. Every bundled file has a SHA-256 entry
-in the provenance manifest. You can also import a WAV you created or are licensed to use.
+The 12 built-in choices are short recordings of real animals. Each selected sound was marked
+CC0 1.0 Universal on its individual Freesound page when retrieved, and every committed file has
+exact source and SHA-256 records in the provenance manifest. You can also import a WAV you created
+or are licensed to use.
 
 <table>
   <tr>
     <td width="25%" align="center"><strong>🔔 Deterministic</strong><br>Lifecycle hooks fire without relying on the model to remember.</td>
-    <td width="25%" align="center"><strong>🐊 40 + yours</strong><br>Choose an animal or import your own local WAV.</td>
-    <td width="25%" align="center"><strong>🛡️ Licensed audio</strong><br>Commercial-use status, source pages, verification date, and checksums are documented.</td>
+    <td width="25%" align="center"><strong>🐈 12 + yours</strong><br>Choose a real animal recording or import your own local WAV.</td>
+    <td width="25%" align="center"><strong>🛡️ Auditable audio</strong><br>Exact sound pages, licenses, source-preview hashes, and file checksums are documented.</td>
     <td width="25%" align="center"><strong>🏠 Local only</strong><br>No account, server, analytics, telemetry, or network request.</td>
   </tr>
 </table>
@@ -50,9 +51,9 @@ Choose a different sound for every event during first-run setup.
 
 | Event | Codex signal | Claude Code signal | Default |
 |---|---|---|---|
-| Needs input | `PermissionRequest` or a question at `Stop` | Permission, elicitation, background-agent input, or a question at `Stop` | Duck |
+| Needs input | `PermissionRequest` or a question at `Stop` | Permission, elicitation, background-agent input, or a question at `Stop` | Cat |
 | Work complete | `Stop` | `Stop` or completed background agent | Rooster |
-| Error | Error-aware hook input where available | `StopFailure` | Frog |
+| Error | Error-aware hook input where available | `StopFailure` | Crow |
 | Session ended | `SessionEnd` | `SessionEnd` | Owl |
 
 > [!NOTE]
@@ -60,8 +61,8 @@ Choose a different sound for every event during first-run setup.
 > sounds while known background tasks or session schedules remain active.
 
 > [!IMPORTANT]
-> Bundled audio is Pixabay content, not a Session Alarm creation and not MIT/CC0. It is integrated
-> into this application and must not be extracted or redistributed as a standalone sound library.
+> Freesound contains uploads under multiple licenses. Only the 12 individual sound pages recorded
+> in this repository were checked as CC0; do not treat the entire Freesound catalog as CC0.
 
 ## Install
 
@@ -122,13 +123,13 @@ The same configuration is shared by Codex and Claude Code on the machine.
 python3 plugins/session-alarm/scripts/session_alarm.py catalog
 
 # Preview one sound
-python3 plugins/session-alarm/scripts/session_alarm.py preview crocodile --volume 70
+python3 plugins/session-alarm/scripts/session_alarm.py preview cat --volume 70
 
-# Hear all 40 in catalog order; press Ctrl+C to stop
+# Hear all 12 in catalog order; press Ctrl+C to stop
 python3 plugins/session-alarm/scripts/session_alarm.py preview-all --volume 40
 
 # Or hear just one family
-python3 plugins/session-alarm/scripts/session_alarm.py preview-all --group wild --volume 40
+python3 plugins/session-alarm/scripts/session_alarm.py preview-all --group farm --volume 40
 
 # Import your own PCM WAV (up to 30 seconds / 32 MB), then preview it
 python3 plugins/session-alarm/scripts/session_alarm.py custom add "./my-chime.wav" \
@@ -141,8 +142,8 @@ python3 plugins/session-alarm/scripts/session_alarm.py custom remove custom:my-c
 # Configure without the wizard
 python3 plugins/session-alarm/scripts/session_alarm.py configure \
   --attention custom:my-chime \
-  --complete elephant \
-  --error hyena \
+  --complete rooster \
+  --error crow \
   --session-end owl \
   --volume 65 \
   --notifications on \
@@ -153,16 +154,14 @@ python3 plugins/session-alarm/scripts/session_alarm.py configure \
 python3 plugins/session-alarm/scripts/session_alarm.py test all
 ```
 
-## The 40-sound catalog
+## The 12-sound catalog
 
 | Family | Sounds |
 |---|---|
-| Pets | Cat, kitten, dog, puppy |
-| Farm | Cow, horse, donkey, pig, goat, sheep, duck, goose, chicken, rooster, turkey |
-| Wild | Wolf, fox, lion, elephant, monkey, bear, crocodile, hyena, camel, raccoon, hippo, snake |
-| Birds | Owl, crow, sparrow, eagle, peacock, penguin |
-| Small creatures | Frog, cricket, bee, mosquito |
-| Ocean | Dolphin, seal, whale |
+| Pets | Cat, dog |
+| Farm | Cow, horse, pig, goat, sheep, rooster |
+| Birds | Owl, crow |
+| Small creatures | Frog, cricket |
 
 The files are normalized for short notifications. See
 [sound provenance and licensing](SOUND_LICENSE.md) and the
@@ -216,14 +215,15 @@ claude plugin validate --strict .
 The CI workflow runs the test suite on Linux, macOS, and Windows. `main` is protected by an active
 GitHub ruleset that requires pull requests and the `test` status check.
 
-Contributions are welcome; read [CONTRIBUTING.md](CONTRIBUTING.md). New sound contributions
-require an exact Pixabay asset URL, contributor, commercial-use verification, and checksum.
+Contributions are welcome; read [CONTRIBUTING.md](CONTRIBUTING.md). Audio changes require an
+individual source page, contributor, verified license, exact source-preview provenance, and
+checksums.
 
 ## License
 
-Code and documentation are released under the [MIT License](LICENSE). Bundled WAV files remain
-under the [Pixabay Content License](SOUND_LICENSE.md); MIT does not apply to those audio assets.
-See [third-party notices](THIRD_PARTY_NOTICES.md).
+Code and documentation are released under the [MIT License](LICENSE). Bundled recordings are
+CC0 assets with file-level provenance documented in [SOUND_LICENSE.md](SOUND_LICENSE.md) and
+[third-party notices](THIRD_PARTY_NOTICES.md).
 
 Session Alarm is independent and is not affiliated with OpenAI or Anthropic. See
 [TRADEMARKS.md](TRADEMARKS.md).
