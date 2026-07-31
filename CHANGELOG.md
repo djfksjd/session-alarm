@@ -2,6 +2,13 @@
 
 All notable changes to Session Alarm are documented here.
 
+## 1.2.1 — 2026-07-31
+
+- Replaced 39 assets with deterministic project-generated animal-themed notification tones.
+- Retained one independently verified Pixabay elephant sound with exact asset-level provenance.
+- Added a reproducible generator and fail-closed provenance, license, and checksum validation.
+- Corrected catalog and documentation claims to distinguish themed tones from real animal calls.
+
 ## 1.2.0 — 2026-07-30
 
 - Replaced the procedural built-in pack with 40 higher-fidelity Pixabay animal sounds.

@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -49,21 +50,17 @@ class PackagingTests(unittest.TestCase):
                     self.assertEqual("node", hook["command"])
                     self.assertIn("${CLAUDE_PLUGIN_ROOT}/scripts/hook.mjs", hook["args"])
 
-    def test_bundled_audio_has_commercial_license_manifest(self):
+    def test_bundled_audio_has_fail_closed_mixed_license_manifest(self):
         sound_dir = PLUGIN / "assets" / "sounds"
         sources = read_json(sound_dir / "sources.json")
-        self.assertEqual("Pixabay Content License", sources["license_name"])
-        self.assertEqual(
-            "https://pixabay.com/service/license-summary/",
-            sources["license_url"],
-        )
-        self.assertTrue(sources["commercial_use_permitted"])
-        self.assertTrue(sources["standalone_redistribution_prohibited"])
+        self.assertEqual(2, sources["schema_version"])
 
         entries = sources["sounds"]
         self.assertEqual(40, len(entries))
         self.assertEqual(40, len({entry["id"] for entry in entries}))
         self.assertEqual(40, len({entry["file"] for entry in entries}))
+        self.assertEqual(39, sum(entry["provenance"] == "project_generated" for entry in entries))
+        self.assertEqual(1, sum(entry["provenance"] == "verified_asset" for entry in entries))
         for entry in entries:
             with self.subTest(sound=entry["id"]):
                 path = sound_dir / entry["file"]
@@ -72,7 +69,34 @@ class PackagingTests(unittest.TestCase):
                     entry["sha256"],
                     hashlib.sha256(path.read_bytes()).hexdigest(),
                 )
-                self.assertTrue(entry["source_page"].startswith("https://pixabay.com/"))
+                self.assertNotEqual("verified_collection", entry["provenance"])
+                if entry["provenance"] == "project_generated":
+                    self.assertEqual("MIT", entry["license_name"])
+                    self.assertEqual(
+                        "plugins/session-alarm/scripts/generate_builtin_sounds.py",
+                        entry["generator"],
+                    )
+                    self.assertTrue(entry["generator_seed"].startswith("session-alarm-v6:"))
+                else:
+                    self.assertEqual("Pixabay Content License", entry["license_name"])
+                    self.assertTrue(entry["source_page"].startswith("https://pixabay.com/"))
+                    self.assertNotIn("/search/", entry["source_page"])
+                    self.assertTrue(entry["contributor"])
+                    self.assertTrue(entry["title"])
+
+    def test_generated_audio_and_manifest_are_reproducible(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(PLUGIN / "scripts" / "generate_builtin_sounds.py"),
+                "--check",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
     def test_audio_files_exist_only_in_the_licensed_asset_directory(self):
         audio_extensions = {".wav", ".mp3", ".m4a", ".aac", ".ogg", ".flac"}

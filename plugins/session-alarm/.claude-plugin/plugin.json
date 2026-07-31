@@ -1,6 +1,6 @@
 {
   "name": "session-alarm",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Local animal-sound alerts when Claude Code needs input, finishes work, fails, or ends a session.",
   "author": {
     "name": "Danny",

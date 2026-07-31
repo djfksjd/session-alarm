@@ -28,9 +28,9 @@
 Session Alarm 是专为 **Codex 和 Claude Code** 设计的生命周期钩子通知插件。当智能体
 需要输入、完成当前轮次、因错误停止或结束会话时，它会播放声音，并可显示桌面通知。
 
-内置 40 种声音来自 Pixabay，并依据允许商业和非商业使用的 Pixabay Content License
-使用。每个文件都记录来源页面、核验日期和 SHA-256。也可以添加自己制作或已获授权
-的 WAV；用户文件始终保存在本机。
+内置 40 种声音包括 39 种项目确定性生成的动物主题提示音，以及 1 个具有精确来源记录的
+Pixabay 大象录音。清单记录每个文件的生成种子或准确来源、许可证和 SHA-256。也可以添加
+自己制作或已获授权的 WAV；用户文件始终保存在本机。
 
 <table>
   <tr>
@@ -137,6 +137,6 @@ python3 plugins/session-alarm/scripts/session_alarm.py test all
 
 导入音频的权利不会改变；请仅使用自己制作或已获授权的音频。
 
-代码和文档采用 [MIT 许可证](../LICENSE)。内置 WAV 不属于 MIT 范围，适用
+代码、文档和 39 个生成 WAV 采用 [MIT 许可证](../LICENSE)。大象 WAV 适用
 [Pixabay Content License](../SOUND_LICENSE.md)。
 本项目是独立开源项目，与 OpenAI 或 Anthropic 没有关联、认可或赞助关系。

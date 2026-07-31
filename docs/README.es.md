@@ -30,9 +30,10 @@ Session Alarm es un plugin de notificaciones mediante hooks creado específicame
 escritorio cuando el agente necesita una respuesta, termina un turno, se detiene por un error o
 cierra una sesión.
 
-Los 40 sonidos integrados proceden de Pixabay y se usan bajo la Pixabay Content License, que
-permite usos comerciales y no comerciales. Se registran la página de origen, la fecha de
-verificación y el SHA-256. También puedes añadir un WAV propio o con licencia.
+Los 40 sonidos integrados incluyen 39 tonos temáticos de animales generados de forma
+determinista por el proyecto y una grabación de elefante de Pixabay con procedencia exacta
+verificada. El manifiesto registra la semilla o fuente, la licencia y el SHA-256 de cada archivo.
+También puedes añadir un WAV propio o con licencia.
 
 <table>
   <tr>
@@ -143,6 +144,6 @@ hay solicitudes de red. Consulta la [declaración de privacidad](../PRIVACY.md) 
 
 Los derechos del audio importado no cambian; usa solo audio propio o con una licencia válida.
 
-El código y la documentación usan la [licencia MIT](../LICENSE). Los WAV integrados no están
-cubiertos por MIT y conservan la [Pixabay Content License](../SOUND_LICENSE.md).
+El código, la documentación y los 39 WAV generados usan la [licencia MIT](../LICENSE). El WAV del
+elefante conserva la [Pixabay Content License](../SOUND_LICENSE.md).
 Este es un proyecto independiente sin afiliación, respaldo ni patrocinio de OpenAI o Anthropic.

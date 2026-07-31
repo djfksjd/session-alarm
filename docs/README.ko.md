@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://github.com/djfksjd/session-alarm/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/djfksjd/session-alarm/ci.yml?branch=main&style=flat-square&label=CI"></a>
   <a href="../LICENSE"><img alt="MIT 라이선스" src="https://img.shields.io/badge/license-MIT-2EC4B6?style=flat-square"></a>
-  <a href="../SOUND_LICENSE.md"><img alt="Pixabay Content License 음원" src="https://img.shields.io/badge/음원-Pixabay_Content_License-00AB6B?style=flat-square"></a>
+  <a href="../SOUND_LICENSE.md"><img alt="검증된 혼합 음원 출처" src="https://img.shields.io/badge/음원-출처_검증-00AB6B?style=flat-square"></a>
   <img alt="Python 3.9+" src="https://img.shields.io/badge/Python-3.9%2B-3776AB?style=flat-square&logo=python&logoColor=white">
   <img alt="내장 40종과 사용자 WAV" src="https://img.shields.io/badge/사운드-내장_40종_%2B_내_소리-FFB703?style=flat-square">
 </p>
@@ -30,9 +30,10 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 사용자 입력을 기다리거나, 현재 작업을 마치거나, 오류로 중단되거나, 세션을 종료할 때
 소리와 선택적 데스크톱 알림을 보냅니다.
 
-내장 40종은 상업적·비상업적 사용이 가능한 Pixabay Content License 동물 효과음입니다.
-모든 파일의 출처 페이지·확인일·SHA-256을 매니페스트에 기록합니다. 직접 만들었거나
-사용 허가를 받은 WAV도 추가할 수 있으며 사용자 파일은 컴퓨터 밖으로 전송되지 않습니다.
+내장 40종은 자체 생성한 동물 테마 알림음 39종과 개별 출처를 검증한 Pixabay 코끼리
+음원 1종입니다. 모든 파일의 생성 시드 또는 정확한 출처·라이선스·SHA-256을 매니페스트에
+기록합니다. 직접 만들었거나 사용 허가를 받은 WAV도 추가할 수 있으며 사용자 파일은
+컴퓨터 밖으로 전송되지 않습니다.
 
 <table>
   <tr>
@@ -59,8 +60,8 @@ Session Alarm은 **Codex와 Claude Code 전용 훅 기반 알림 플러그인**�
 > 세션 예약이 진행 중이라고 확인되면 완료 알림을 울리지 않습니다.
 
 > [!IMPORTANT]
-> 내장 음원은 Session Alarm 자체 제작물이나 MIT·CC0 음원이 아닙니다. Pixabay 음원을
-> 앱 기능에 통합한 것이므로 파일만 따로 추출하거나 효과음 라이브러리로 재배포하면 안 됩니다.
+> 자체 생성 알림음 39종은 MIT가 적용됩니다. 코끼리 음원 1종은 Pixabay Content
+> License가 적용되며 별도 효과음처럼 추출·재배포하면 안 됩니다.
 
 ## 설치
 
@@ -190,7 +191,7 @@ Codex나 Claude Code의 작업을 막지 않습니다.
 사용자에게 있으며, 직접 만들었거나 사용 허가를 받은 파일만 사용해야 합니다. 자세한
 내용은 [개인정보 안내](../PRIVACY.md)와 [보안 정책](../SECURITY.md)을 확인하세요.
 
-코드와 문서는 [MIT 라이선스](../LICENSE)입니다. 내장 WAV에는 MIT가 적용되지 않으며
+코드·문서·자체 생성 WAV 39종은 [MIT 라이선스](../LICENSE)입니다. 코끼리 WAV에는
 [Pixabay Content License](../SOUND_LICENSE.md)가 적용됩니다.
 이 프로젝트는 OpenAI 또는 Anthropic과 제휴하거나 후원받지 않은 독립 오픈소스
 프로젝트입니다.

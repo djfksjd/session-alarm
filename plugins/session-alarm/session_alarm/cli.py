@@ -164,9 +164,9 @@ def command_catalog(args: argparse.Namespace) -> int:
         _print(json.dumps(rows, ensure_ascii=False, indent=2))
     else:
         _print(
-            "40 commercially usable Pixabay animal sounds"
+            "40 local animal-themed sounds (39 original tones + 1 licensed recording)"
             if language == "en"
-            else "상업적 이용이 가능한 Pixabay 동물 사운드 40종"
+            else "로컬 동물 테마 사운드 40종(자체 생성 39종 + 라이선스 음원 1종)"
         )
         _show_catalog(language)
     return 0
@@ -362,10 +362,10 @@ def command_setup(args: argparse.Namespace) -> int:
 
     if language == "ko":
         _print("Session Alarm 최초 설정")
-        _print("Pixabay Content License 동물 사운드 40종과 내 WAV 파일을 사용할 수 있습니다.")
+        _print("로컬 동물 테마 사운드 40종과 직접 만든 또는 허가받은 WAV를 사용할 수 있습니다.")
     else:
         _print("Session Alarm first-run setup")
-        _print("Choose from 40 Pixabay Content License sounds or add your own WAV file.")
+        _print("Choose from 40 local animal-themed sounds or add a WAV you may use.")
     _show_catalog(language)
 
     try:

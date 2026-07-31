@@ -44,9 +44,10 @@ configure --attention <id> --complete <id> --error <id> --session-end <id> \
 6. Run `status` and then `test all`. If the environment has no supported audio player, explain
 the exact status without changing system packages unless the user asks.
 
-The built-in assets come from Pixabay under the Pixabay Content License and may be used
-commercially subject to its prohibited uses. Do not describe them as created by Session Alarm,
-public-domain, CC0, or covered by MIT. Direct users to `SOUND_LICENSE.md` for provenance.
+The built-in pack contains 39 deterministic project-generated tones covered by MIT and one
+verified Pixabay elephant recording under the Pixabay Content License. Do not describe the
+generated tones as real animal recordings, or the elephant file as MIT/public-domain/CC0.
+Direct users to `SOUND_LICENSE.md` for file-level provenance.
 
 ## Other operations
 
