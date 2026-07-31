@@ -39,10 +39,10 @@ class CliTests(unittest.TestCase):
             check=False,
         )
 
-    def test_catalog_json_contains_forty_sounds(self):
+    def test_catalog_json_contains_twelve_sounds(self):
         result = self.run_cli("catalog", "--json", "--language", "en")
         self.assertEqual(0, result.returncode, result.stderr)
-        self.assertEqual(40, len(json.loads(result.stdout)))
+        self.assertEqual(12, len(json.loads(result.stdout)))
 
     def test_preview_all_can_play_one_group_in_order(self):
         result = self.run_cli(
@@ -57,19 +57,19 @@ class CliTests(unittest.TestCase):
             "en",
         )
         self.assertEqual(0, result.returncode, result.stderr)
-        self.assertIn("[01/04] Cat (cat)", result.stdout)
-        self.assertIn("[04/04] Puppy (puppy)", result.stdout)
+        self.assertIn("[01/02] Cat (cat)", result.stdout)
+        self.assertIn("[02/02] Dog (dog)", result.stdout)
         self.assertIn("Preview complete.", result.stdout)
 
     def test_noninteractive_configuration_and_status(self):
         result = self.run_cli(
             "configure",
             "--attention",
-            "crocodile",
+            "cat",
             "--complete",
-            "elephant",
+            "rooster",
             "--error",
-            "hyena",
+            "crow",
             "--session-end",
             "owl",
             "--volume",
@@ -86,7 +86,7 @@ class CliTests(unittest.TestCase):
         status = self.run_cli("status", "--json")
         payload = json.loads(status.stdout)
         self.assertTrue(payload["configured"])
-        self.assertEqual("crocodile", payload["config"]["sounds"]["attention"])
+        self.assertEqual("cat", payload["config"]["sounds"]["attention"])
         self.assertEqual(0.55, payload["config"]["volume"])
 
     def test_custom_sound_add_configure_list_and_remove(self):

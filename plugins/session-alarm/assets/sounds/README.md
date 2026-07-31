@@ -1,12 +1,17 @@
 # Bundled sound assets
 
-This directory contains 39 deterministic project-generated animal-themed notification tones and
-one verified Pixabay elephant recording.
+This directory contains 12 short real-animal recordings selected from individual Freesound pages
+that identified each recording as CC0 1.0 Universal.
 
-The generated tones are covered by the repository's MIT License and can be reproduced with
-`../../scripts/generate_builtin_sounds.py`. The elephant recording remains under the
-[Pixabay Content License](https://pixabay.com/service/license-summary/) and is not offered as
-standalone stock audio.
+`sources.json` records file-level provenance, exact sound pages, contributor names, original
+filenames, public HQ preview URLs and hashes, clip boundaries, processing details, and committed
+WAV hashes. The source asset is recorded as a public preview because Freesound requires login for
+original-file downloads.
 
-See [`sources.json`](sources.json) for each file's provenance, license, generator seed or exact
-source page, and SHA-256 checksum.
+Verify the committed assets without network access:
+
+```bash
+python3 plugins/session-alarm/scripts/verify_builtin_sounds.py
+```
+
+Do not infer that every Freesound upload is CC0; only the listed assets were individually checked.

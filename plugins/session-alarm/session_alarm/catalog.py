@@ -1,8 +1,7 @@
-"""Animal-themed notification sounds bundled with Session Alarm.
+"""Short real-animal notification recordings bundled with Session Alarm.
 
-Most assets are deterministic project-generated tones covered by MIT. The
-elephant sound is a verified Pixabay asset under the Pixabay Content License.
-See SOUND_LICENSE.md and assets/sounds/sources.json in the repository.
+Every bundled recording is published under CC0 on its individual Freesound
+page. See SOUND_LICENSE.md and assets/sounds/sources.json in the repository.
 """
 
 from __future__ import annotations
@@ -16,7 +15,7 @@ from typing import Dict, List, Tuple
 
 
 SAMPLE_RATE = 44_100
-SOUND_PACK_VERSION = 6
+SOUND_PACK_VERSION = 7
 Samples = List[float]
 ASSET_DIR = Path(__file__).resolve().parent.parent / "assets" / "sounds"
 
@@ -33,66 +32,29 @@ class Sound:
 
 _SOUND_IDENTITIES = (
     ("cat", "pets", "Cat", "고양이"),
-    ("kitten", "pets", "Kitten", "아기 고양이"),
     ("dog", "pets", "Dog", "강아지"),
-    ("puppy", "pets", "Puppy", "아기 강아지"),
     ("cow", "farm", "Cow", "소"),
     ("horse", "farm", "Horse", "말"),
-    ("donkey", "farm", "Donkey", "당나귀"),
     ("pig", "farm", "Pig", "돼지"),
     ("goat", "farm", "Goat", "염소"),
     ("sheep", "farm", "Sheep", "양"),
-    ("duck", "farm", "Duck", "오리"),
-    ("goose", "farm", "Goose", "거위"),
-    ("chicken", "farm", "Chicken", "암탉"),
     ("rooster", "farm", "Rooster", "수탉"),
-    ("turkey", "farm", "Turkey", "칠면조"),
-    ("wolf", "wild", "Wolf", "늑대"),
-    ("fox", "wild", "Fox", "여우"),
-    ("lion", "wild", "Lion", "사자"),
-    ("elephant", "wild", "Elephant", "코끼리"),
-    ("monkey", "wild", "Monkey", "원숭이"),
-    ("bear", "wild", "Bear", "곰"),
-    ("crocodile", "wild", "Crocodile", "악어"),
-    ("hyena", "wild", "Hyena", "하이에나"),
-    ("camel", "wild", "Camel", "낙타"),
-    ("raccoon", "wild", "Raccoon", "라쿤"),
-    ("hippo", "wild", "Hippo", "하마"),
-    ("snake", "wild", "Snake", "뱀"),
     ("owl", "birds", "Owl", "올빼미"),
     ("crow", "birds", "Crow", "까마귀"),
-    ("sparrow", "birds", "Sparrow", "참새"),
-    ("eagle", "birds", "Eagle", "독수리"),
-    ("peacock", "birds", "Peacock", "공작"),
-    ("penguin", "birds", "Penguin", "펭귄"),
     ("frog", "small", "Frog", "개구리"),
     ("cricket", "small", "Cricket", "귀뚜라미"),
-    ("bee", "small", "Bee", "벌"),
-    ("mosquito", "small", "Mosquito", "모기"),
-    ("dolphin", "ocean", "Dolphin", "돌고래"),
-    ("seal", "ocean", "Seal", "물개"),
-    ("whale", "ocean", "Whale", "고래"),
 )
 
 
 def _sound(identity: tuple[str, str, str, str]) -> Sound:
     sound_id, group, name_en, name_ko = identity
-    if sound_id == "elephant":
-        return Sound(
-            sound_id,
-            group,
-            name_en,
-            name_ko,
-            "A verified real elephant call",
-            "검증된 실제 코끼리 울음",
-        )
     return Sound(
         sound_id,
         group,
         name_en,
         name_ko,
-        f"An original {name_en.lower()}-themed alert tone",
-        f"자체 생성한 {name_ko} 테마 알림음",
+        f"A short CC0 recording of a real {name_en.lower()}",
+        f"실제 {name_ko}를 녹음한 짧은 CC0 알림음",
     )
 
 
@@ -103,10 +65,8 @@ SOUND_BY_ID: Dict[str, Sound] = {sound.sound_id: sound for sound in SOUNDS}
 GROUP_NAMES = {
     "pets": ("Pets", "반려동물"),
     "farm": ("Farm", "농장동물"),
-    "wild": ("Wild", "야생동물"),
     "birds": ("Birds", "새"),
     "small": ("Small creatures", "작은 생물"),
-    "ocean": ("Ocean", "바다동물"),
 }
 
 

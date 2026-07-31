@@ -50,17 +50,15 @@ class PackagingTests(unittest.TestCase):
                     self.assertEqual("node", hook["command"])
                     self.assertIn("${CLAUDE_PLUGIN_ROOT}/scripts/hook.mjs", hook["args"])
 
-    def test_bundled_audio_has_fail_closed_mixed_license_manifest(self):
+    def test_bundled_audio_has_fail_closed_cc0_manifest(self):
         sound_dir = PLUGIN / "assets" / "sounds"
         sources = read_json(sound_dir / "sources.json")
-        self.assertEqual(2, sources["schema_version"])
+        self.assertEqual(3, sources["schema_version"])
 
         entries = sources["sounds"]
-        self.assertEqual(40, len(entries))
-        self.assertEqual(40, len({entry["id"] for entry in entries}))
-        self.assertEqual(40, len({entry["file"] for entry in entries}))
-        self.assertEqual(39, sum(entry["provenance"] == "project_generated" for entry in entries))
-        self.assertEqual(1, sum(entry["provenance"] == "verified_asset" for entry in entries))
+        self.assertEqual(12, len(entries))
+        self.assertEqual(12, len({entry["id"] for entry in entries}))
+        self.assertEqual(12, len({entry["file"] for entry in entries}))
         for entry in entries:
             with self.subTest(sound=entry["id"]):
                 path = sound_dir / entry["file"]
@@ -69,27 +67,30 @@ class PackagingTests(unittest.TestCase):
                     entry["sha256"],
                     hashlib.sha256(path.read_bytes()).hexdigest(),
                 )
-                self.assertNotEqual("verified_collection", entry["provenance"])
-                if entry["provenance"] == "project_generated":
-                    self.assertEqual("MIT", entry["license_name"])
-                    self.assertEqual(
-                        "plugins/session-alarm/scripts/generate_builtin_sounds.py",
-                        entry["generator"],
-                    )
-                    self.assertTrue(entry["generator_seed"].startswith("session-alarm-v6:"))
-                else:
-                    self.assertEqual("Pixabay Content License", entry["license_name"])
-                    self.assertTrue(entry["source_page"].startswith("https://pixabay.com/"))
-                    self.assertNotIn("/search/", entry["source_page"])
-                    self.assertTrue(entry["contributor"])
-                    self.assertTrue(entry["title"])
+                self.assertEqual("freesound_cc0_recording", entry["provenance"])
+                self.assertEqual("CC0 1.0 Universal", entry["license_name"])
+                self.assertEqual(
+                    "https://creativecommons.org/publicdomain/zero/1.0/",
+                    entry["license_url"],
+                )
+                self.assertFalse(entry["attribution_required"])
+                self.assertTrue(entry["source_page"].startswith("https://freesound.org/people/"))
+                self.assertIn("/sounds/", entry["source_page"])
+                self.assertNotIn("/search/", entry["source_page"])
+                self.assertEqual(
+                    "freesound_public_hq_mp3_preview",
+                    entry["source_asset_kind"],
+                )
+                self.assertTrue(entry["source_preview_url"].startswith("https://cdn.freesound.org/"))
+                self.assertEqual(64, len(entry["source_preview_sha256"]))
+                self.assertTrue(entry["contributor"])
+                self.assertTrue(entry["title"])
 
-    def test_generated_audio_and_manifest_are_reproducible(self):
+    def test_committed_audio_and_manifest_pass_offline_verifier(self):
         result = subprocess.run(
             [
                 sys.executable,
-                str(PLUGIN / "scripts" / "generate_builtin_sounds.py"),
-                "--check",
+                str(PLUGIN / "scripts" / "verify_builtin_sounds.py"),
             ],
             cwd=ROOT,
             capture_output=True,
@@ -105,7 +106,7 @@ class PackagingTests(unittest.TestCase):
             for path in ROOT.rglob("*")
             if path.is_file() and path.suffix.lower() in audio_extensions
         ]
-        self.assertEqual(40, len(found))
+        self.assertEqual(12, len(found))
         sound_dir = PLUGIN / "assets" / "sounds"
         self.assertTrue(all(path.parent == sound_dir for path in found))
 

@@ -44,10 +44,10 @@ configure --attention <id> --complete <id> --error <id> --session-end <id> \
 6. Run `status` and then `test all`. If the environment has no supported audio player, explain
 the exact status without changing system packages unless the user asks.
 
-The built-in pack contains 39 deterministic project-generated tones covered by MIT and one
-verified Pixabay elephant recording under the Pixabay Content License. Do not describe the
-generated tones as real animal recordings, or the elephant file as MIT/public-domain/CC0.
-Direct users to `SOUND_LICENSE.md` for file-level provenance.
+The built-in pack contains 12 short recordings of real animals. Every selected recording was
+marked CC0 1.0 Universal on its individual Freesound page when retrieved. Do not generalize this
+to all Freesound uploads. Direct users to `SOUND_LICENSE.md` and the machine-readable manifest for
+file-level provenance, public-preview source hashes, and processing details.
 
 ## Other operations
 
